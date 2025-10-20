@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('/', function(){ return redirect()->route('compliments.index'); });
+Route::get('/', function(){ return redirect()->route('login'); });
 
 
 Route::resource('compliments', ComplimentController::class);
