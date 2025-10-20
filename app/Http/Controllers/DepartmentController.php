@@ -14,7 +14,7 @@ class DepartmentController extends Controller
             $data = Department::query();
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('action', fn($row) => view('departments.partials.actions', compact('row'))->render())
+                ->addColumn('action', fn($row) => view('departments.actions', compact('row'))->render())
                 ->rawColumns(['action'])
                 ->make(true);
         }
@@ -26,6 +26,13 @@ class DepartmentController extends Controller
     {
         $request->validate(['name' => 'required|string|max:255']);
         Department::create($request->all());
+        return response()->json(['success' => true]);
+    }
+
+    public function destroy($id)
+    {
+        $department = Department::findOrFail($id);
+        $department->delete();
         return response()->json(['success' => true]);
     }
 }

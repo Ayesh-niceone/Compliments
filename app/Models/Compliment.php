@@ -13,8 +13,7 @@ class Compliment extends Model
 
 
     protected $fillable = [
-        'created_by_type',
-        'created_by_id',
+
         'target_type',
         'target_id',
         'department_id',
@@ -22,20 +21,6 @@ class Compliment extends Model
         'comment',
         'status'
     ];
-
-
-    // Polymorphic relations via manual accessor (we store type + id)
-    public function createdBy()
-    {
-        return $this->morphTo(__FUNCTION__, 'created_by_type', 'created_by_id');
-    }
-
-
-    public function target()
-    {
-        return $this->morphTo(__FUNCTION__, 'target_type', 'target_id');
-    }
-
 
     public function department()
     {

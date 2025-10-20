@@ -42,17 +42,19 @@ class ComplimentController extends Controller
     {
         $request->validate([
             'department_id' => 'required|exists:departments,id',
-            'care_user_id' => 'required|exists:users,id',
             'comment' => 'required|string',
+            'target_type' => 'required|in:customer,worker',
+            'phone' => 'required|string',
+            'email' => 'required|email',
         ]);
 
         Compliment::create([
-            'created_by_type' => auth()->user()::class,
-            'created_by_id' => auth()->id(),
             'department_id' => $request->department_id,
-            'care_user_id' => $request->care_user_id,
             'comment' => $request->comment,
             'status' => 'new',
+            'target_type' => $request->target_type,
+            'phone' => $request->phone,
+            'email' => $request->email,
         ]);
 
         return redirect()->route('compliments.index')
