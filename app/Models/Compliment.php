@@ -19,7 +19,10 @@ class Compliment extends Model
         'department_id',
         'care_user_id',
         'comment',
-        'status'
+        'status',
+        'name',
+        'phone',
+        'email'
     ];
 
     public function department()

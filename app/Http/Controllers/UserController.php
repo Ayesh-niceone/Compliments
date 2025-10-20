@@ -14,7 +14,7 @@ class UserController extends Controller
             $data = User::query();
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('action', fn($row) => view('users.partials.actions', compact('row'))->render())
+                ->addColumn('action', fn($row) => view('users.actions', compact('row'))->render())
                 ->rawColumns(['action'])
                 ->make(true);
         }

@@ -29,6 +29,5 @@ Route::get('/', function(){ return redirect()->route('login'); });
 
 Route::resource('compliments', ComplimentController::class);
 Route::resource('departments', DepartmentController::class);
-Route::resource('customers', CustomerController::class);
 Route::resource('users', UserController::class);
 require __DIR__.'/auth.php';
