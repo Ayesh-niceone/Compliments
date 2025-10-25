@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -49,11 +50,6 @@ class User extends Authenticatable
     public function compliments()
     {
         return $this->hasMany(Compliment::class, 'care_user_id');
-    }
-
-    public function complimentHistories()
-    {
-        return $this->hasMany(ComplimentHistory::class);
     }
 
 }

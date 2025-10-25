@@ -1,5 +1,5 @@
 <div class="btn-group" role="group">
-    <a href="{{ route('users.edit', $row->id) }}" class="btn btn-sm btn-warning">Edit</a>
+    <button class="btn btn-sm btn-warning editUserBtn" data-id="{{ $row->id }}">Edit</button>
     <button class="btn btn-sm btn-danger" onclick="deleteUser({{ $row->id }})">Delete</button>
 </div>
 

@@ -2,8 +2,8 @@
       <!-- Sidebar scroll-->
       <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
-          <a href="./index.html" class="text-nowrap logo-img">
-            <img src="../assets/images/logos/dark-logo.svg" width="180" alt="" />
+          <a href="{{ route('dashboard') }}" class="text-nowrap logo-img">
+            <img src="../assets/images/logos/logo.png" width="100" alt="" class="mx-5 mt-2" />
           </a>
           <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
             <i class="ti ti-x fs-8"></i>
@@ -21,7 +21,7 @@
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
-                <span class="hide-menu">Dashboard</span>
+                <span class="hide-menu">{{ __('Dashboard') }}</span>
               </a>
             </li>
             <li class="sidebar-item">
@@ -29,7 +29,7 @@
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
-                <span class="hide-menu">Compliments</span>
+                <span class="hide-menu">{{ __('Compliments') }}</span>
               </a>
             </li>
             <li class="sidebar-item">
@@ -37,7 +37,23 @@
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
-                <span class="hide-menu">Departments</span>
+                <span class="hide-menu">{{ __('Departments') }}</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ route('statuses.index') }}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">{{ __('Statuses') }}</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ route('completion_types.index') }}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">{{ __('Completion Types') }}</span>
               </a>
             </li>
             <li class="sidebar-item">
@@ -45,7 +61,7 @@
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
-                <span class="hide-menu">Users</span>
+                <span class="hide-menu">{{ __('Users') }}</span>
               </a>
             </li>
 

@@ -13,32 +13,36 @@ class Compliment extends Model
 
 
     protected $fillable = [
-
-        'target_type',
-        'target_id',
+        'customer_name',
+        'phone',
+        'plate_number',
+        'created_at',
+        'closed_at',
         'department_id',
         'care_user_id',
         'comment',
-        'status',
-        'name',
-        'phone',
-        'email'
+        'care_comment',
+        'status_id',
+        'target_type',
+        'completion_type_id',
     ];
 
     public function department()
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(Department::class, 'department_id');
     }
-
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'status_id');
+    }
+    public function completion_type()
+    {
+        return $this->belongsTo(CompletionType::class, 'completion_type_id');
+    }
 
     public function careUser()
     {
-        return $this->belongsTo(\App\Models\User::class, 'care_user_id');
+        return $this->belongsTo(User::class, 'care_user_id');
     }
 
-
-    public function histories()
-    {
-        return $this->hasMany(ComplimentHistory::class);
-    }
 }

@@ -7,18 +7,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Department extends Model
+class CompletionType extends Model
 {
     use HasFactory;
 
 
-    protected $fillable = ['name', 'code'];
+    protected $fillable = ['name'];
 
 
     public function compliments()
     {
         return $this->hasMany(\App\Models\Compliment::class);
     }
-
-    
 }

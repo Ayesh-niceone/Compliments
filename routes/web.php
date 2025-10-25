@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\{
+    CompletionTypeController,
     ComplimentController,
     DepartmentController,
     CustomerController,
+    StatusController,
     UserController
 };
 use App\Http\Controllers\ProfileController;
@@ -29,5 +31,10 @@ Route::get('/', function(){ return redirect()->route('login'); });
 
 Route::resource('compliments', ComplimentController::class);
 Route::resource('departments', DepartmentController::class);
+Route::resource('statuses', StatusController::class);
+Route::resource('completion_types', CompletionTypeController::class);
 Route::resource('users', UserController::class);
+
+Route::put('/compliments/{compliment}/assign-care-user', [ComplimentController::class, 'assignCareUser'])
+    ->name('compliments.assignCareUser');
 require __DIR__.'/auth.php';

@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('compliments', function (Blueprint $table) {
             $table->id();
-            $table->enum('target_type', ['customer', 'worker']);
-            $table->unsignedBigInteger('target_id');
-            $table->unsignedBigInteger('department_id')->nullable();
             $table->unsignedBigInteger('care_user_id')->nullable();
-            $table->text('comment')->nullable();
-            $table->enum('status', ['new', 'in_progress', 'resolved', 'closed'])->default('new');
-            $table->string('name');
+            $table->string('customer_name');
             $table->string('phone');
-            $table->string('email')->unique();
+            $table->string('plate_number');
+            $table->timestamp('closed_at')->nullable();
+            $table->unsignedBigInteger('department_id');
+            $table->text('comment');
+            $table->text('care_comment')->nullable();
+            $table->unsignedBigInteger('status_id');
+            $table->unsignedBigInteger('completion_type_id');
+            $table->enum('target_type', ['customer', 'worker']);
             $table->timestamps();
         });
     }

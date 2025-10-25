@@ -1,4 +1,5 @@
 <div class="btn-group" role="group">
+    <button class="btn btn-sm btn-warning" onclick="editDepartment({{ $row->id }}, '{{ $row->name }}', '{{ $row->code }}')">Edit</button>
     <button class="btn btn-sm btn-danger" onclick="deleteDepartment({{ $row->id }})">Delete</button>
 </div>
 
