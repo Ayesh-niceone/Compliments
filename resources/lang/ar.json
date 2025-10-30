@@ -72,5 +72,13 @@
     "Delete User": "حذف المستخدم",
     "All Departments": "جميع المحطات",
     "All Completion Types": "جميع أنواع الإكمال",
-    "All Statuses": "جميع الحالات"
+    "All Statuses": "جميع الحالات",
+    "Your Name": "اسمك",
+    "Phone Number": "رقم الهاتف",
+    "Select Department": "اختر المحطة",
+    "Select Completion Type": "اختر نوع الإكمال",
+    "Your Comment": "تعليقك",
+    "Submit": "إرسال",
+    "Submit a Compliment": "إرسال مشكلة",
+    "We appreciate your feedback!": "نحن نقدر ملاحظاتك!"
 }

@@ -5,7 +5,7 @@
 
 <script>
 function deleteCompletionType(id) {
-    if (confirm('{{ __('Are you sure?') }}')) {
+    if (confirm('{{ __('Are you sure') }}')) {
         $.ajax({
             url: '/completion_types/' + id,
             type: 'DELETE',
