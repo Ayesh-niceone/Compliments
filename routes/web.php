@@ -37,4 +37,8 @@ Route::resource('users', UserController::class);
 
 Route::put('/compliments/{compliment}/assign-care-user', [ComplimentController::class, 'assignCareUser'])
     ->name('compliments.assignCareUser');
+
+    Route::get('/compliments/export/excel', [ComplimentController::class, 'export'])->name('compliments.export');
+
 require __DIR__.'/auth.php';
+Route::get('logout', [\App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])->name('logout');

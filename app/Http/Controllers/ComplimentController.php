@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ComplimentsExport;
 use App\Models\CompletionType;
 use App\Models\Compliment;
 use App\Models\Department;
 use App\Models\Status;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class ComplimentController extends Controller
@@ -15,8 +17,21 @@ class ComplimentController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Compliment::with(['department', 'careUser'])
+            $data = Compliment::with(['department', 'careUser', 'completion_type', 'status'])
                 ->select('compliments.*');
+
+            // ✅ Apply filters if provided
+            if ($request->filled('department_id')) {
+                $data->where('department_id', $request->department_id);
+            }
+
+            if ($request->filled('completion_type_id')) {
+                $data->where('completion_type_id', $request->completion_type_id);
+            }
+
+            if ($request->filled('status_id')) {
+                $data->where('status_id', $request->status_id);
+            }
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -25,7 +40,7 @@ class ComplimentController extends Controller
                 ->addColumn('code', fn($row) => $row->department->code ?? '-')
                 ->addColumn('phone', fn($row) => $row->phone ?? '-')
                 ->addColumn('plate_number', fn($row) => $row->plate_number ?? '-')
-                ->addColumn('created_at', fn($row) => $row->created_at ?? '-')
+                ->addColumn('created_at', fn($row) => $row->created_at->format('Y-m-d H:i') ?? '-')
                 ->addColumn('completion_type', fn($row) => $row->completion_type->name ?? '-')
                 ->addColumn('care_user', fn($row) => $row->careUser->name ?? '-')
                 ->addColumn('status', fn($row) => $row->status->name ?? '-')
@@ -36,12 +51,19 @@ class ComplimentController extends Controller
                 ->make(true);
         }
 
+        // ✅ Regular view load
         return view('compliments.index', [
             'departments' => Department::all(),
             'statuses' => Status::all(),
             'completionTypes' => CompletionType::all(),
             'careUsers' => User::where('role', 'customer_care')->get(),
         ]);
+    }
+
+    // ✅ Export to Excel
+    public function export(Request $request)
+    {
+        return Excel::download(new ComplimentsExport($request), 'compliments.xlsx');
     }
 
     public function create()
@@ -85,32 +107,33 @@ class ComplimentController extends Controller
 
     public function show(Compliment $compliment)
     {
-                $statuses = Status::all();
+        $statuses = Status::all();
 
         return view('compliments.show', compact('compliment', 'statuses'));
     }
-    public function edit($id){
+    public function edit($id)
+    {
         $compliment = Compliment::findOrFail($id);
         $statuses = Status::all();
         return view('compliments.edit', compact('compliment', 'statuses'));
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $compliment = Compliment::findOrFail($id);
         $compliment->update($request->all());
         return response()->json(['success' => 'Compliment updated successfully.']);
     }
     public function assignCareUser(Request $request, Compliment $compliment)
-{
-    $request->validate([
-        'care_user_id' => 'required|exists:users,id',
-    ]);
+    {
+        $request->validate([
+            'care_user_id' => 'required|exists:users,id',
+        ]);
 
-    $compliment->update([
-        'care_user_id' => $request->care_user_id,
-    ]);
+        $compliment->update([
+            'care_user_id' => $request->care_user_id,
+        ]);
 
-    return redirect()->route('compliments.show', $compliment)->with('success', 'Care user assigned successfully.');
-}
-
+        return redirect()->route('compliments.show', $compliment)->with('success', 'Care user assigned successfully.');
+    }
 }

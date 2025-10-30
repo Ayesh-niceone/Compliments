@@ -1,10 +1,10 @@
 <div class="btn-group" role="group">
-    <button class="btn btn-sm btn-danger" onclick="deleteStatus({{ $row->id }})">Delete</button>
+    <button class="btn btn-sm btn-danger" onclick="deleteStatus({{ $row->id }})">{{ __('Delete') }}</button>
 </div>
 
 <script>
 function deleteStatus(id) {
-    if (confirm('Are you sure?')) {
+    if (confirm('{{ __('Are you sure?') }}')) {
         $.ajax({
             url: '/statuses/' + id,
             type: 'DELETE',

@@ -2,16 +2,16 @@
 
 @section('content')
 <div class="container">
-    <h1>Create Completion Type</h1>
+    <h1>{{ __('Create Completion Type') }}</h1>
 
     <form action="{{ route('completion_types.store') }}" method="POST">
         @csrf
         <div class="mb-3">
-            <label>Name</label>
+            <label>{{ __('Name') }}</label>
             <input type="text" name="name" class="form-control" required>
         </div>
 
-        <button class="btn btn-primary">Create</button>
+        <button class="btn btn-primary">{{ __('Create') }}</button>
     </form>
 </div>
 @endsection

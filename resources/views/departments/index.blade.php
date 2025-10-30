@@ -3,9 +3,9 @@
 @section('content')
 <div class="card w-100">
     <div class="card-body p-4">
-        <h5 class="card-title fw-semibold mb-4">Departments</h5>
+        <h5 class="card-title fw-semibold mb-4">{{ __('Departments') }}</h5>
         <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createDepartmentModal">
-            Add Department
+            {{ __('Add Department') }}
         </button>
 
         <div class="table-responsive">
@@ -13,9 +13,9 @@
                 <thead class="text-dark fs-4">
                     <tr>
                         <th>#</th>
-                        <th>Name</th>
-                        <th>Code</th>
-                        <th>Action</th>
+                        <th>{{ __('Name') }}</th>
+                        <th>{{ __('Code') }}</th>
+                        <th>{{ __('Action') }}</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -31,18 +31,18 @@
             @csrf
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Department</h5>
+                    <h5 class="modal-title">{{ __('Add Department') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <label class="form-label">Department Name</label>
+                    <label class="form-label">{{ __('Department Name') }}</label>
                     <input type="text" name="name" class="form-control mb-2" required>
 
-                    <label class="form-label">Department Code</label>
+                    <label class="form-label">{{ __('Department Code') }}</label>
                     <input type="text" name="code" class="form-control" required>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" onclick="storeDepartment()" class="btn btn-success">Save</button>
+                    <button type="button" onclick="storeDepartment()" class="btn btn-success">{{ __('Save') }}</button>
                 </div>
             </div>
         </form>
@@ -58,18 +58,18 @@
             <input type="hidden" id="edit_id" name="id">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Department</h5>
+                    <h5 class="modal-title">{{ __('Edit Department') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <label class="form-label">Department Name</label>
+                    <label class="form-label">{{ __('Department Name') }}</label>
                     <input type="text" id="edit_name" name="name" class="form-control mb-2" required>
 
-                    <label class="form-label">Department Code</label>
+                    <label class="form-label">{{ __('Department Code') }}</label>
                     <input type="text" id="edit_code" name="code" class="form-control" required>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" onclick="updateDepartment()" class="btn btn-success">Update</button>
+                    <button type="button" onclick="updateDepartment()" class="btn btn-success">{{ __('Update') }}</button>
                 </div>
             </div>
         </form>

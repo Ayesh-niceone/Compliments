@@ -4,9 +4,9 @@
 <div class="card w-100">
     <div class="card-body p-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h5 class="card-title fw-semibold mb-0">Users</h5>
+            <h5 class="card-title fw-semibold mb-0">{{ __('Users') }}</h5>
             <button class="btn btn-primary" id="createUserBtn">
-                <i class="ti ti-plus"></i> Add User
+                <i class="ti ti-plus"></i> {{ __('Add User') }}
             </button>
         </div>
 
@@ -15,10 +15,10 @@
                 <thead class="text-dark fs-4">
                     <tr>
                         <th>#</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Action</th>
+                        <th>{{ __('Name') }}</th>
+                        <th>{{ __('Email') }}</th>
+                        <th>{{ __('Role') }}</th>
+                        <th>{{ __('Action') }}</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -35,39 +35,39 @@
             <input type="hidden" id="user_id" name="user_id">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="userModalLabel">Add User</h5>
+                    <h5 class="modal-title" id="userModalLabel">{{ __('Add User') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="name" class="form-label fw-semibold">Name</label>
+                        <label for="name" class="form-label fw-semibold">{{ __('Name') }}</label>
                         <input type="text" class="form-control" id="name" name="name" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="email" class="form-label fw-semibold">Email</label>
+                        <label for="email" class="form-label fw-semibold">{{ __('Email') }}</label>
                         <input type="email" class="form-control" id="email" name="email" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="role" class="form-label fw-semibold">Role</label>
+                        <label for="role" class="form-label fw-semibold">{{ __('Role') }}</label>
                         <select class="form-select" id="role" name="role" required>
-                            <option value="">Select role</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">User</option>
-                            <option value="customer_care">Customer Care</option>
+                            <option value="">{{ __('Select role') }}</option>
+                            <option value="admin">{{ __('Admin') }}</option>
+                            <option value="user">{{ __('User') }}</option>
+                            <option value="customer_care">{{ __('Customer Care') }}</option>
                         </select>
                     </div>
 
                     <div class="mb-3 password-field">
-                        <label for="password" class="form-label fw-semibold">Password</label>
+                        <label for="password" class="form-label fw-semibold">{{ __('Password') }}</label>
                         <input type="password" class="form-control" id="password" name="password">
-                        <small class="text-muted">Required only when creating a new user.</small>
+                        <small class="text-muted">{{ __('Required only when creating a new user.') }}</small>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="saveUserBtn">Save</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                    <button type="submit" class="btn btn-primary" id="saveUserBtn">{{ __('Save') }}</button>
                 </div>
             </div>
         </form>

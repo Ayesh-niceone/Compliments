@@ -2,15 +2,15 @@
 
 @section('content')
 <div class="container">
-    <h1>Create Status</h1>
+    <h1>{{ __('Create Status') }}</h1>
 
     <form action="{{ route('statuses.store') }}" method="POST">
         @csrf
         <div class="mb-3">
-            <label>Name</label>
+            <label>{{ __('Name') }}</label>
             <input type="text" name="name" class="form-control" required>
         </div>
-        <button class="btn btn-primary">Create</button>
+        <button class="btn btn-primary">{{ __('Create') }}</button>
     </form>
 </div>
 @endsection

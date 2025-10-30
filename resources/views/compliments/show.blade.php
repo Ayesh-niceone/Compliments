@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <a href="{{ route('compliments.index') }}" class="btn btn-link">&larr; Back</a>
+    <a href="{{ route('compliments.index') }}" class="btn btn-link">&larr; {{ __('Back') }}</a>
 
     <h1>{{ __('Compliment') }} #{{ $compliment->id }}</h1>
 
@@ -25,7 +25,7 @@
     {{-- ========== CUSTOMER COMMENT ========== --}}
     <div class="card mb-3">
         <div class="card-body">
-            <h5>Customer Comment</h5>
+            <h5>{{ __('Customer Comment') }}</h5>
             <p>{{ $compliment->comment ?? '-' }}</p>
         </div>
     </div>
@@ -34,7 +34,7 @@
     @if($compliment->care_comment)
     <div class="card mb-3">
         <div class="card-body">
-            <h5>Care User Comment</h5>
+            <h5>{{ __('Care User Comment') }}</h5>
             <p>{{ $compliment->care_comment }}</p>
         </div>
     </div>
@@ -43,7 +43,7 @@
     {{-- ========== UPDATE FORM (Care Comment + Status) ========== --}}
     <div class="card mb-3">
         <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Update Care Comment & Status</h5>
+            <h5 class="mb-0">{{ __('Update Care Comment & Status') }}</h5>
         </div>
 
         <div class="card-body">
@@ -66,14 +66,14 @@
                 @method('PUT')
 
                 <div class="mb-3">
-                    <label for="care_comment" class="form-label">Care Comment</label>
+                    <label for="care_comment" class="form-label">{{ __('Care Comment') }}</label>
                     <textarea name="care_comment" id="care_comment" class="form-control" rows="3" required>{{ old('care_comment', $compliment->care_comment) }}</textarea>
                 </div>
 
                 <div class="mb-3">
-                    <label for="status_id" class="form-label">Status</label>
+                    <label for="status_id" class="form-label">{{ __('Status') }}</label>
                     <select name="status_id" id="status_id" class="form-select" required>
-                        <option value="">-- Select Status --</option>
+                        <option value="">-- {{ __('Select Status') }} --</option>
                         @foreach($statuses as $status)
                             <option value="{{ $status->id }}" {{ $compliment->status_id == $status->id ? 'selected' : '' }}>
                                 {{ $status->name }}
@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="text-end">
-                    <button type="submit" class="btn btn-success px-4">Save Changes</button>
+                    <button type="submit" class="btn btn-success px-4">{{ __('Save Changes') }}</button>
                 </div>
             </form>
         </div>

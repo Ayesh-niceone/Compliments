@@ -2,21 +2,21 @@
 
 @section('content')
 <div class="container">
-    <h1>Create Department</h1>
+    <h1>{{ __('Create Department') }}</h1>
 
     <form action="{{ route('departments.store') }}" method="POST">
         @csrf
         <div class="mb-3">
-            <label>Name</label>
+            <label>{{ __('Name') }}</label>
             <input type="text" name="name" class="form-control" required>
         </div>
 
         <div class="mb-3">
-            <label>Position</label>
-            <input type="text" name="position" class="form-control">
+            <label>{{ __('Code') }}</label>
+            <input type="text" name="code" class="form-control">
         </div>
 
-        <button class="btn btn-primary">Create</button>
+        <button class="btn btn-primary">{{ __('Create') }}</button>
     </form>
 </div>
 @endsection

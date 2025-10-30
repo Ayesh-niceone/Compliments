@@ -1,11 +1,11 @@
 <div class="btn-group" role="group">
-    <button class="btn btn-sm btn-warning" onclick="editDepartment({{ $row->id }}, '{{ $row->name }}', '{{ $row->code }}')">Edit</button>
-    <button class="btn btn-sm btn-danger" onclick="deleteDepartment({{ $row->id }})">Delete</button>
+    <button class="btn btn-sm btn-warning" onclick="editDepartment({{ $row->id }}, '{{ $row->name }}', '{{ $row->code }}')">{{ __('Edit') }}</button>
+    <button class="btn btn-sm btn-danger" onclick="deleteDepartment({{ $row->id }})">{{ __('Delete') }}</button>
 </div>
 
 <script>
 function deleteDepartment(id) {
-    if (confirm('Are you sure?')) {
+    if (confirm('{{ __('Are you sure?') }}')) {
         $.ajax({
             url: '/departments/' + id,
             type: 'DELETE',
