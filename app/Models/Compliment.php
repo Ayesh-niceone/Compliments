@@ -25,6 +25,7 @@ class Compliment extends Model
         'status_id',
         'target_type',
         'completion_type_id',
+        'close_date',
     ];
 
     public function department()

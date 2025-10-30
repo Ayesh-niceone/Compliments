@@ -81,7 +81,7 @@
                         @endforeach
                     </select>
                 </div>
-
+                <input type="hidden" name="close_date" value="{{ now() }}">
                 <div class="text-end">
                     <button type="submit" class="btn btn-success px-4">{{ __('Save Changes') }}</button>
                 </div>
