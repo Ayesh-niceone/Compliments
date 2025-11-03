@@ -5,10 +5,12 @@ use App\Http\Controllers\{
     ComplimentController,
     DepartmentController,
     CustomerController,
+    SettingController,
     StatusController,
     UserController
 };
 use App\Http\Controllers\ProfileController;
+use Hamcrest\Core\Set;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -42,3 +44,5 @@ Route::put('/compliments/{compliment}/assign-care-user', [ComplimentController::
 
 require __DIR__.'/auth.php';
 Route::get('logout', [\App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])->name('logout');
+Route::get('/settings', [SettingController::class, 'edit'])->name('settings.edit');
+Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');

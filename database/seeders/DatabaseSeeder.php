@@ -32,5 +32,9 @@ class DatabaseSeeder extends Seeder
         ];
 
         DB::table('departments')->insert($departments);
+
+        $this->call([
+        SettingSeeder::class,
+    ]);
     }
 }
