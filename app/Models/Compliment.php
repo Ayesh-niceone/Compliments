@@ -26,8 +26,13 @@ class Compliment extends Model
         'target_type',
         'completion_type_id',
         'close_date',
+        'worker_id',
+        'images',
     ];
 
+    protected $casts = [
+        'images' => 'array',
+    ];
     public function department()
     {
         return $this->belongsTo(Department::class, 'department_id');
@@ -46,4 +51,8 @@ class Compliment extends Model
         return $this->belongsTo(User::class, 'care_user_id');
     }
 
+    public function worker()
+    {
+        return $this->belongsTo(Worker::class, 'worker_id');
+    }
 }

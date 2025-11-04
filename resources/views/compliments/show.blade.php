@@ -19,9 +19,26 @@
             <p><strong>{{ __('Status') }}:</strong> {{ $compliment->status->name ?? '-' }}</p>
             <p><strong>{{ __('Completion Type') }}:</strong> {{ $compliment->completion_type->name ?? '-' }}</p>
             <p><strong>{{ __('Target Type') }}:</strong> {{ $compliment->target_type ?? '-' }}</p>
+            <p><strong>{{ __('Worker') }}:</strong> {{ $compliment->worker->name ?? '-' }}</p>
+
         </div>
     </div>
-
+    @if($compliment->images)
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5>{{ __('Attached Images') }}</h5>
+                <div class="row">
+                    @foreach((array) json_decode($compliment->images, true) as $image)
+                        <div class="col-md-3 mb-2">
+                            <a href="{{ asset('storage/' . $image) }}" target="_blank">
+                                <img src="{{ asset('storage/' . $image) }}" class="img-fluid rounded shadow-sm" alt="Image">
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    @endif
     {{-- ========== CUSTOMER COMMENT ========== --}}
     <div class="card mb-3">
         <div class="card-body">

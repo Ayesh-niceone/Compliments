@@ -7,7 +7,8 @@ use App\Http\Controllers\{
     CustomerController,
     SettingController,
     StatusController,
-    UserController
+    UserController,
+    WorkerController
 };
 use App\Http\Controllers\ProfileController;
 use Hamcrest\Core\Set;
@@ -46,3 +47,11 @@ require __DIR__.'/auth.php';
 Route::get('logout', [\App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])->name('logout');
 Route::get('/settings', [SettingController::class, 'edit'])->name('settings.edit');
 Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
+Route::resource('workers', WorkerController::class);
+
+
+Route::get('/compliments/customer/create', [ComplimentController::class, 'createCustomer'])->name('compliments.createCustomer');
+Route::post('/compliments/customer/store', [ComplimentController::class, 'storeCustomer'])->name('compliments.storeCustomer');
+
+Route::get('/compliments/worker/create', [ComplimentController::class, 'createWorker'])->name('compliments.createWorker');
+Route::post('/compliments/worker/store', [ComplimentController::class, 'storeWorker'])->name('compliments.storeWorker');

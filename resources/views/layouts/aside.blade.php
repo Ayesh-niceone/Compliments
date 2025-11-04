@@ -65,6 +65,14 @@
               </a>
             </li>
             <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ route('workers.index') }}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">{{ __('Workers') }}</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
               <a class="sidebar-link" href="{{ route('settings.edit',['id' => 1]) }}" aria-expanded="false">
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
