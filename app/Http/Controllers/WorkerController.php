@@ -18,8 +18,8 @@ class WorkerController extends Controller
                 ->addColumn('department', fn($row) => $row->department?->name ?? '-')
                 ->addColumn('action', function ($row) {
                     return '
-                        <button onclick="editWorker(' . $row->id . ', \'' . e($row->name) . '\', \'' . e($row->job_title) . '\', \'' . e($row->phone) . '\', ' . $row->department_id . ')" class="btn btn-sm btn-warning">Edit</button>
-                        <button onclick="deleteWorker(' . $row->id . ')" class="btn btn-sm btn-danger">Delete</button>
+                        <button onclick="editWorker(' . $row->id . ', \'' . e($row->name) . '\', \'' . e($row->job_title) . '\', \'' . e($row->phone) . '\', ' . $row->department_id . ')" class="btn btn-sm btn-warning">' . __('Edit') . '</button>
+                        <button onclick="deleteWorker(' . $row->id . ')" class="btn btn-sm btn-danger">' . __('Delete') . '</button>
                     ';
                 })
                 ->rawColumns(['action'])

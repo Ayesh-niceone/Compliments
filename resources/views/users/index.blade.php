@@ -30,7 +30,7 @@
 <!-- Create / Edit Modal -->
 <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form id="userForm" method="POST" class="modal-content" action="">
+        <form id="userForm" method="POST" class="modal-content">
             @csrf
             <input type="hidden" id="user_id" name="user_id">
             <div class="modal-content">
@@ -53,9 +53,9 @@
                         <label for="role" class="form-label fw-semibold">{{ __('Role') }}</label>
                         <select class="form-select" id="role" name="role" required>
                             <option value="">{{ __('Select role') }}</option>
-                            <option value="admin">{{ __('Admin') }}</option>
-                            <option value="user">{{ __('User') }}</option>
-                            <option value="customer_care">{{ __('Customer Care') }}</option>
+                            @foreach($roles as $id => $role)
+                                <option value="{{ $role }}">{{ ucfirst($role) }}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -91,7 +91,7 @@ $(function() {
         ]
     });
 
-    // Open create modal
+    // Create
     $('#createUserBtn').click(function() {
         $('#userForm')[0].reset();
         $('#user_id').val('');
@@ -100,7 +100,7 @@ $(function() {
         $('#userModal').modal('show');
     });
 
-    // Edit button click
+    // Edit
     $('body').on('click', '.editUserBtn', function() {
         let id = $(this).data('id');
         $.get("{{ url('users') }}/" + id + "/edit", function(data) {
@@ -109,12 +109,12 @@ $(function() {
             $('#name').val(data.name);
             $('#email').val(data.email);
             $('#role').val(data.role);
-            $('.password-field').hide(); // hide password on edit
+            $('.password-field').hide();
             $('#userModal').modal('show');
         });
     });
 
-    // Save or update user
+    // Save or update
     $('#userForm').submit(function(e) {
         e.preventDefault();
         let id = $('#user_id').val();
@@ -128,7 +128,7 @@ $(function() {
             success: function(res) {
                 $('#userModal').modal('hide');
                 table.ajax.reload(null, false);
-                toastr.success(res.message || 'User saved successfully');
+                toastr.success(res.message);
             },
             error: function(xhr) {
                 toastr.error(xhr.responseJSON?.message || 'Something went wrong');
@@ -136,7 +136,7 @@ $(function() {
         });
     });
 
-    // Delete user
+    // Delete
     $('body').on('click', '.deleteUserBtn', function() {
         if (!confirm('Are you sure?')) return;
         let id = $(this).data('id');
@@ -146,7 +146,7 @@ $(function() {
             data: {_token: '{{ csrf_token() }}'},
             success: function(res) {
                 table.ajax.reload(null, false);
-                toastr.success(res.message || 'User deleted successfully');
+                toastr.success(res.message);
             }
         });
     });

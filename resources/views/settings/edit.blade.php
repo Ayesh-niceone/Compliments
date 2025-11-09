@@ -12,27 +12,27 @@
         @csrf
 
         <div class="form-group mb-3">
-            <label>Site Name</label>
+            <label>{{ __('System Name') }}</label>
             <input type="text" name="system_name" class="form-control" value="{{ old('system_name', $setting->system_name) }}">
         </div>
 
         <div class="form-group mb-3">
-            <label>Email</label>
+            <label>{{ __('Email') }}</label>
             <input type="email" name="email" class="form-control" value="{{ old('email', $setting->email) }}">
         </div>
 
         <div class="form-group mb-3">
-            <label>Phone</label>
+            <label>{{ __('Phone') }}</label>
             <input type="text" name="phone" class="form-control" value="{{ old('phone', $setting->phone) }}">
         </div>
 
         <div class="form-group mb-3">
-            <label>Address</label>
+            <label>{{ __('Address') }}</label>
             <textarea name="address" class="form-control">{{ old('address', $setting->address) }}</textarea>
         </div>
 
         <div class="form-group mb-3">
-            <label>Logo</label>
+            <label>{{ __('Logo') }}</label>
             <input type="file" name="logo" class="form-control">
             @if($setting->logo)
                 <div class="mt-2">
@@ -41,7 +41,7 @@
             @endif
         </div>
 
-        <button type="submit" class="btn btn-primary">Save Settings</button>
+        <button type="submit" class="btn btn-primary">{{ __('Save Settings') }}</button>
     </form>
 </div>
 @endsection

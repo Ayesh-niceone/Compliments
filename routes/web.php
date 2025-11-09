@@ -4,11 +4,12 @@ use App\Http\Controllers\{
     CompletionTypeController,
     ComplimentController,
     DepartmentController,
-    CustomerController,
+    PermissionController,
     SettingController,
     StatusController,
     UserController,
-    WorkerController
+    WorkerController,
+    RoleController
 };
 use App\Http\Controllers\ProfileController;
 use Hamcrest\Core\Set;
@@ -55,3 +56,8 @@ Route::post('/compliments/customer/store', [ComplimentController::class, 'storeC
 
 Route::get('/compliments/worker/create', [ComplimentController::class, 'createWorker'])->name('compliments.createWorker');
 Route::post('/compliments/worker/store', [ComplimentController::class, 'storeWorker'])->name('compliments.storeWorker');
+
+
+Route::resource('roles', RoleController::class);
+
+Route::resource('permissions', PermissionController::class);
