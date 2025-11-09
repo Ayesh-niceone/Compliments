@@ -10,7 +10,7 @@ class SettingSeeder extends Seeder
     {
         // Create default settings if not exist
         Setting::firstOrCreate([], [
-            'site_name' => 'Compliment System',
+            'system_name' => 'Compliment System',
             'email' => 'info@example.com',
             'phone' => '+966000000000',
             'address' => 'Riyadh, Saudi Arabia',
