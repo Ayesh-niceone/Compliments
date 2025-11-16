@@ -132,5 +132,9 @@
     "Permission created successfully.": "تم إنشاء الإذن بنجاح.",
     "Permission updated successfully.": "تم تحديث الإذن بنجاح.",
     "Permission deleted successfully.": "تم حذف الإذن بنجاح.",
-    "Guard": "الحارس"
+    "Guard": "الحارس",
+    "Compliments By Department":"المشاكل حسب المحطة",
+    "Compliments By Completion Type":" المشاكل حسب التصنيفات",
+    "Compliments By Worker":"المشاكل حسب العامل",
+    "Compliments By Care User":"المشاكل حسب مسؤول خدمة العملاء"
 }

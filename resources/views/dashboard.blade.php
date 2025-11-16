@@ -33,25 +33,25 @@
 <div class="row mt-5">
     <!-- Department -->
     <div class="col-md-6 mb-5">
-        <h5 class="fw-bold mb-3">Compliments By Department</h5>
+        <h5 class="fw-bold mb-3">{{__('Compliments By Department')}}</h5>
         <div id="departmentDonut" style="min-height:280px;"></div>
     </div>
 
     <!-- Completion Type -->
     <div class="col-md-6 mb-5">
-        <h5 class="fw-bold mb-3">Compliments By Completion Type</h5>
+        <h5 class="fw-bold mb-3">{{__('Compliments By Completion Type')}}</h5>
         <div id="completionDonut" style="min-height:280px;"></div>
     </div>
 
-    <!-- Target Type -->
+    <!-- Worker -->
     <div class="col-md-6 mb-5">
-        <h5 class="fw-bold mb-3">Compliments By Target Type</h5>
-        <div id="targetDonut" style="min-height:280px;"></div>
+        <h5 class="fw-bold mb-3">{{__('Compliments By Worker')}}</h5>
+        <div id="workerDonut" style="min-height:280px;"></div>
     </div>
 
     <!-- Care User -->
     <div class="col-md-6 mb-5">
-        <h5 class="fw-bold mb-3">Compliments By Care User</h5>
+        <h5 class="fw-bold mb-3">{{__('Compliments By Care User')}}</h5>
         <div id="careUserDonut" style="min-height:280px;"></div>
     </div>
 </div>
