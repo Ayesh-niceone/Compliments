@@ -15,8 +15,7 @@ class PermissionController extends Controller
             return DataTables::of($permissions)
                 ->addColumn('action', function ($permission) {
                     return '
-                        <button class="btn btn-sm btn-info editPermissionBtn" data-id="'.$permission->id.'">Edit</button>
-                        <button class="btn btn-sm btn-danger deletePermissionBtn" data-id="'.$permission->id.'">Delete</button>
+
                     ';
                 })
                 ->rawColumns(['action'])

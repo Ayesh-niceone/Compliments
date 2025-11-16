@@ -3,12 +3,12 @@
 @section('content')
 <div class="card w-100">
     <div class="card-body p-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        {{-- <div class="d-flex justify-content-between align-items-center mb-4">
             <h5 class="card-title fw-semibold mb-0">{{ __('Permissions') }}</h5>
             <button class="btn btn-primary" id="createPermissionBtn">
                 <i class="ti ti-plus"></i> {{ __('Add Permission') }}
             </button>
-        </div>
+        </div> --}}
 
         <div class="table-responsive">
             <table class="table text-nowrap mb-0 align-middle" id="permissions-table">
