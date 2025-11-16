@@ -67,7 +67,7 @@
     .then(data => {
         renderDonut("departmentDonut", data.department_chart);
         renderDonut("completionDonut", data.completion_chart);
-        renderDonut("targetDonut", data.target_type_chart);
+        renderDonut("workerDonut", data.worker_chart);  // NEW
         renderDonut("careUserDonut", data.care_user_chart);
     });
 

@@ -33,12 +33,13 @@ class DashboardController extends Controller
                 'value' => $row->total
             ]);
 
-        // 3) Target Type
-        $targetType = Compliment::selectRaw('target_type, COUNT(*) as total')
-            ->groupBy('target_type')
+        // 4) Worker (NEW instead of Target Type)
+        $workers = Compliment::selectRaw('worker_id, COUNT(*) as total')
+            ->groupBy('worker_id')
+            ->with('worker')
             ->get()
-            ->map(fn($row) => [
-                'label' => ucfirst($row->target_type ?? 'N/A'),
+            ->map(fn ($row) => [
+                'label' => $row->worker->name ?? 'Unknown',
                 'value' => $row->total
             ]);
 
@@ -55,7 +56,7 @@ class DashboardController extends Controller
         return response()->json([
             'department_chart'    => $departments,
             'completion_chart'    => $completionType,
-            'target_type_chart'   => $targetType,
+            'worker_chart'        => $workers,   // NEW
             'care_user_chart'     => $careUsers,
         ]);
     }
