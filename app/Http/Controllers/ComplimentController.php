@@ -64,7 +64,7 @@ class ComplimentController extends Controller
             'departments' => Department::all(),
             'statuses' => Status::all(),
             'completionTypes' => CompletionType::all(),
-            'careUsers' => User::where('role', 'customer_care')->get(),
+            'careUsers' => User::where('role', 'Customer Care')->get(),
         ]);
     }
 
