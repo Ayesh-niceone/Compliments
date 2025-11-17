@@ -4,9 +4,11 @@
     <div class="card w-100">
         <div class="card-body p-4">
             <h5 class="card-title fw-semibold mb-4">{{ __('Statuses') }}</h5>
+            @can('create statuses')
             <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createStatusModal">
                 {{ __('Add Status') }}
             </button>
+            @endcan
             <div class="table-responsive" >
                 <table class="table text-nowrap mb-0 align-middle" id="statuses-table">
                     <thead class="text-dark fs-4">

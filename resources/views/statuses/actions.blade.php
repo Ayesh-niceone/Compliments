@@ -1,5 +1,8 @@
 <div class="btn-group" role="group">
+    @can('delete statuses')
+
     <button class="btn btn-sm btn-danger" onclick="deleteStatus({{ $row->id }})">{{ __('Delete') }}</button>
+    @endcan
 </div>
 
 <script>

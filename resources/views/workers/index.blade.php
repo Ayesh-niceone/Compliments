@@ -4,10 +4,11 @@
 <div class="card w-100">
     <div class="card-body p-4">
         <h5 class="card-title fw-semibold mb-4">{{ __('Workers') }}</h5>
-
+        @can('create workers')
         <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createWorkerModal">
             {{ __('Add Worker') }}
         </button>
+        @endcan
 
         <div class="table-responsive">
             <table class="table text-nowrap mb-0 align-middle" id="workers-table">
