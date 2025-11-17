@@ -3,7 +3,7 @@
 @section('content')
 <div class="card w-100">
     <div class="card-body p-4">
-        <h5 class="card-title fw-semibold mb-4">Edit Role: {{ $role->name }}</h5>
+        <h5 class="card-title fw-semibold mb-4">{{ __('Edit Role') }}: {{ $role->name }}</h5>
 
         <form id="updateRoleForm">
             @csrf
@@ -11,15 +11,15 @@
             <input type="hidden" id="role_id" value="{{ $role->id }}">
 
             <div class="mb-3">
-                <label class="form-label">Role Name</label>
+                <label class="form-label">{{__('Role Name')}}</label>
                 <input type="text" name="name" class="form-control" value="{{ $role->name }}" required>
             </div>
 
-            <h6 class="fw-bold mt-4 mb-2">Permissions</h6>
+            <h6 class="fw-bold mt-4 mb-2">{{__('Permissions')}}</h6>
 
             <div class="mb-3">
                 <input type="checkbox" id="selectAllPermissions">
-                <label for="selectAllPermissions" class="fw-semibold">Select All Permissions</label>
+                <label for="selectAllPermissions" class="fw-semibold"> {{__('Select All Permissions')}}</label>
             </div>
 
             @php
@@ -33,8 +33,8 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th width="20%">Module</th>
-                        <th>Permissions</th>
+                        <th width="20%">{{ __('Module') }}</th>
+                        <th>{{ __('Permissions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,14 +48,14 @@
 
                     <tr>
                         <td class="align-middle">
-                            <strong>{{ $moduleTitle }}</strong><br>
+                            <strong>{{ __($moduleTitle) }}</strong><br>
 
                             {{-- MAIN MANAGE CHECKBOX --}}
                             <input type="checkbox"
                                 class="module-check"
                                 data-module="{{ $module }}">
 
-                            <label><small>Manage {{ $moduleTitle }}</small></label>
+                            <label><small>{{ __('Manage') }} {{ __($moduleTitle) }}</small></label>
                         </td>
 
                         <td>
