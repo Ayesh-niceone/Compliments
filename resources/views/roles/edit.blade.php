@@ -75,7 +75,7 @@
                                             value="{{ $perm->id }}"
                                             {{ in_array($perm->id, $rolePermissions) ? 'checked' : '' }}>
 
-                                        <label>{{ $action }}</label>
+                                        <label>{{ __($action) }}</label>
                                     </div>
 
                                 @endforeach
