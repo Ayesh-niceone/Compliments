@@ -152,7 +152,7 @@ function updateRole() {
 
     $.ajax({
         url: `/roles/${id}`,
-        method: 'POST',
+        method: 'PUT',
         data: {
             _token: '{{ csrf_token() }}',
             name: $('input[name="name"]').val(),
