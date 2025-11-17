@@ -4,10 +4,11 @@
 <div class="card w-100">
     <div class="card-body p-4">
         <h5 class="card-title fw-semibold mb-4">{{ __('Completion Types') }}</h5>
+        @can('create completion_types')
         <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createCompletionTypeModal">
             {{ __('Add Completion Type') }}
         </button>
-
+        @endcan
         <div class="table-responsive">
             <table class="table text-nowrap mb-0 align-middle" id="completion_types-table">
                 <thead class="text-dark fs-4">
