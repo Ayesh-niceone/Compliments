@@ -33,43 +33,49 @@
         <form id="userForm" method="POST" class="modal-content">
             @csrf
             <input type="hidden" id="user_id" name="user_id">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="userModalLabel">{{ __('Add User') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="userModalLabel">{{ __('Add User') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <!-- Validation Errors -->
+                <div class="alert alert-danger d-none" id="validationErrors"></div>
+
+                <div class="mb-3">
+                    <label for="name" class="form-label fw-semibold">{{ __('Name') }}</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
                 </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="name" class="form-label fw-semibold">{{ __('Name') }}</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="email" class="form-label fw-semibold">{{ __('Email') }}</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="role" class="form-label fw-semibold">{{ __('Role') }}</label>
-                        <select class="form-select" id="role" name="role" required>
-                            <option value="">{{ __('Select role') }}</option>
-                            @foreach($roles as $id => $role)
-                                <option value="{{ $role }}">{{ ucfirst($role) }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="mb-3 password-field">
-                        <label for="password" class="form-label fw-semibold">{{ __('Password') }}</label>
-                        <input type="password" class="form-control" id="password" name="password">
-                        <small class="text-muted">{{ __('Required only when creating a new user.') }}</small>
-                    </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-semibold">{{ __('Email') }}</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                    <button type="submit" class="btn btn-primary" id="saveUserBtn">{{ __('Save') }}</button>
+
+                <div class="mb-3">
+                    <label for="role" class="form-label fw-semibold">{{ __('Role') }}</label>
+                    <select class="form-select" id="role" name="role" required>
+                        <option value="">{{ __('Select role') }}</option>
+                        @foreach($roles as $id => $role)
+                            <option value="{{ $role }}">{{ ucfirst($role) }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-3 password-field">
+                    <label for="password" class="form-label fw-semibold">{{ __('Password') }}</label>
+                    <input type="password" class="form-control" id="password" name="password">
+                    <small class="text-muted">{{ __('Required only when creating a new user.') }}</small>
                 </div>
             </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                <button type="submit" class="btn btn-primary" id="saveUserBtn">{{ __('Save') }}</button>
+            </div>
+
         </form>
     </div>
 </div>
@@ -78,6 +84,7 @@
 @push('scripts')
 <script>
 $(function() {
+
     let table = $('#users-table').DataTable({
         processing: true,
         serverSide: true,
@@ -91,32 +98,49 @@ $(function() {
         ]
     });
 
-    // Create
+    /** ---------------------------
+     *  OPEN CREATE MODAL
+     * --------------------------*/
     $('#createUserBtn').click(function() {
         $('#userForm')[0].reset();
         $('#user_id').val('');
         $('#userModalLabel').text('Add User');
         $('.password-field').show();
+
+        // reset validation
+        $('#validationErrors').addClass('d-none').html("");
+
         $('#userModal').modal('show');
     });
 
-    // Edit
+    /** ---------------------------
+     *  OPEN EDIT MODAL
+     * --------------------------*/
     $('body').on('click', '.editUserBtn', function() {
         let id = $(this).data('id');
+
         $.get("{{ url('users') }}/" + id + "/edit", function(data) {
             $('#userModalLabel').text('Edit User');
             $('#user_id').val(data.id);
             $('#name').val(data.name);
             $('#email').val(data.email);
             $('#role').val(data.role);
+
             $('.password-field').hide();
+
+            // reset validation
+            $('#validationErrors').addClass('d-none').html("");
+
             $('#userModal').modal('show');
         });
     });
 
-    // Save or update
+    /** ---------------------------
+     *  CREATE / UPDATE SUBMIT
+     * --------------------------*/
     $('#userForm').submit(function(e) {
         e.preventDefault();
+
         let id = $('#user_id').val();
         let url = id ? "{{ url('users') }}/" + id : "{{ route('users.store') }}";
         let method = id ? "PUT" : "POST";
@@ -131,15 +155,35 @@ $(function() {
                 toastr.success(res.message);
             },
             error: function(xhr) {
-                toastr.error(xhr.responseJSON?.message || 'Something went wrong');
+
+                let errors = xhr.responseJSON.errors;
+
+                if (errors) {
+                    let html = "<ul>";
+                    $.each(errors, function(key, value) {
+                        html += "<li>" + value[0] + "</li>";
+                    });
+                    html += "</ul>";
+
+                    $('#validationErrors')
+                        .removeClass('d-none')
+                        .html(html);
+
+                } else {
+                    toastr.error(xhr.responseJSON?.message || 'Something went wrong');
+                }
             }
         });
     });
 
-    // Delete
+    /** ---------------------------
+     *  DELETE USER
+     * --------------------------*/
     $('body').on('click', '.deleteUserBtn', function() {
         if (!confirm('Are you sure?')) return;
+
         let id = $(this).data('id');
+
         $.ajax({
             url: "{{ url('users') }}/" + id,
             type: 'DELETE',
@@ -150,6 +194,7 @@ $(function() {
             }
         });
     });
+
 });
 </script>
 @endpush
