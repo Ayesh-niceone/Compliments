@@ -47,7 +47,9 @@ class RoleController extends Controller
     {
         $role = Role::findOrFail($id);
         $role->update(['name' => $request->name]);
-        $role->syncPermissions($request->permissions ?? []);
+        $permissions = Permission::whereIn('id', $request->permissions)->get();
+
+        $role->syncPermissions($permissions ?? []);
         return response()->json(['success' => true]);
     }
 
