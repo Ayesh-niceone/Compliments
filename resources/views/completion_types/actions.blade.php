@@ -1,6 +1,10 @@
 <div class="btn-group" role="group">
+    @can('edit completion_types')
      <button class="btn btn-sm btn-warning" onclick="editCompletionType('{{ $row->id }}', '{{ $row->name }}')">{{ __('Edit') }}</button>
+    @endcan
+    @can('delete completion_types')
     <button class="btn btn-sm btn-danger" onclick="deleteCompletionType({{ $row->id }})">{{ __('Delete') }}</button>
+    @endcan
 </div>
 
 <script>

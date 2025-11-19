@@ -5,9 +5,11 @@
     <div class="card-body p-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h5 class="card-title fw-semibold mb-0">{{ __('Users') }}</h5>
+            @can('create users')
             <button class="btn btn-primary" id="createUserBtn">
                 <i class="ti ti-plus"></i> {{ __('Add User') }}
             </button>
+            @endcan
         </div>
 
         <div class="table-responsive">

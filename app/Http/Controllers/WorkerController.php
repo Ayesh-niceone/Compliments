@@ -16,11 +16,16 @@ class WorkerController extends Controller
             return DataTables::of($workers)
                 ->addIndexColumn()
                 ->addColumn('department', fn($row) => $row->department?->name ?? '-')
+
                 ->addColumn('action', function ($row) {
-                    return '
-                        <button onclick="editWorker(' . $row->id . ', \'' . e($row->name) . '\', \'' . e($row->job_title) . '\', \'' . e($row->phone) . '\', ' . $row->department_id . ')" class="btn btn-sm btn-warning">' . __('Edit') . '</button>
-                        <button onclick="deleteWorker(' . $row->id . ')" class="btn btn-sm btn-danger">' . __('Delete') . '</button>
-                    ';
+                    $buttons = '';
+                    if(auth()->user()->can('edit workers')) {
+                        $buttons .= '<button onclick="editWorker(' . $row->id . ', \'' . e($row->name) . '\', \'' . e($row->job_title) . '\', \'' . e($row->phone) . '\', ' . $row->department_id . ')" class="btn btn-sm btn-warning">' . __('Edit') . '</button> ';
+                    }
+                    if(auth()->user()->can('delete workers')) {
+                        $buttons .= '<button onclick="deleteWorker(' . $row->id . ')" class="btn btn-sm btn-danger">' . __('Delete') . '</button>';
+                    }
+                    return $buttons;
                 })
                 ->rawColumns(['action'])
                 ->make(true);

@@ -58,17 +58,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/compliments/export/excel', [ComplimentController::class, 'export'])
         ->name('compliments.export');
 
-    Route::get('/compliments/customer/create', [ComplimentController::class, 'createCustomer'])
-        ->name('compliments.createCustomer');
-    Route::post('/compliments/customer/store', [ComplimentController::class, 'storeCustomer'])
-        ->name('compliments.storeCustomer');
 
-    Route::get('/compliments/worker/create', [ComplimentController::class, 'createWorker'])
-        ->name('compliments.createWorker');
-    Route::post('/compliments/worker/store', [ComplimentController::class, 'storeWorker'])
-        ->name('compliments.storeWorker');
 
     // Logout
     Route::get('logout', [\App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 });
+
+Route::get('/compliments/customer/create', [ComplimentController::class, 'createCustomer'])
+    ->name('compliments.createCustomer');
+Route::post('/compliments/customer/store', [ComplimentController::class, 'storeCustomer'])
+    ->name('compliments.storeCustomer');
+
+Route::get('/compliments/worker/create', [ComplimentController::class, 'createWorker'])
+    ->name('compliments.createWorker');
+Route::post('/compliments/worker/store', [ComplimentController::class, 'storeWorker'])
+    ->name('compliments.storeWorker');

@@ -1,7 +1,11 @@
 <div class="btn-group" role="group">
+    @can('edit departments')
     <button class="btn btn-sm btn-warning"
         onclick="editDepartment({{ $row->id }}, '{{ $row->name }}', '{{ $row->code }}')">{{ __('Edit') }}</button>
+    @endcan
+    @can('delete departments')
     <button class="btn btn-sm btn-danger" onclick="deleteDepartment({{ $row->id }})">{{ __('Delete') }}</button>
+    @endcan
     <!-- Worker Form -->
     <a href="{{ route('compliments.createWorker', ['department_id' => $row->id]) }}" target="_blank" class="btn btn-sm btn-primary">
         <i class="fa fa-user-cog"></i> {{ __('Worker Form') }}

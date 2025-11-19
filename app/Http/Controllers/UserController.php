@@ -63,7 +63,11 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $user->role = $user->roles->first()?->name; // get first role for editing
+        $user->syncRoles(['Admin']);
+
+        // Update convenience column in users table
+        $user->role = 'Admin';
+        $user->save();
         return response()->json($user);
     }
 
