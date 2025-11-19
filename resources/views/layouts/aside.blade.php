@@ -2,7 +2,7 @@
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
             <a href="{{ route('dashboard') }}" class="text-nowrap logo-img">
-                <img src="{{ logo() }}" width="100" alt="" class="mx-5 mt-2" />
+                <img src="{{ logo() }}" width="150" alt="" class="mx-5 mt-2" />
             </a>
             <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                 <i class="ti ti-x fs-8"></i>
