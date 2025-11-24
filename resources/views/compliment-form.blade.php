@@ -19,7 +19,7 @@
         <div class="card-header bg-primary text-white ">
             <div class="d-flex justify-content-center align-items-center">
 
-                <img src="../assets/images/logos/logo.png" width="100" alt="" class="mx-5 mt-2" />
+                <img src="{{ logo() }}" width="100" alt="" class="mx-5 mt-2" />
             </div>
             <div class="">
                 <h3>{{ __('Submit a Compliment') }}</h3>
