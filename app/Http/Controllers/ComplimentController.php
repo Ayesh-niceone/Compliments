@@ -258,7 +258,7 @@ class ComplimentController extends Controller
 
         $compliments = $data->get();
 
-        $pdf = Pdf::loadView('compliments.pdf', compact('compliments'))
+        $pdf = \PDF::loadView('compliments.pdf', compact('compliments'))
             ->setPaper('A4', 'landscape');
 
         return $pdf->download('compliments.pdf');
