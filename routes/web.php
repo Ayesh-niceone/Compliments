@@ -74,3 +74,5 @@ Route::get('/compliments/worker/create', [ComplimentController::class, 'createWo
     ->name('compliments.createWorker');
 Route::post('/compliments/worker/store', [ComplimentController::class, 'storeWorker'])
     ->name('compliments.storeWorker');
+Route::get('/compliments-export-pdf', [ComplimentController::class, 'exportPdf'])
+    ->name('compliments.export.pdf');

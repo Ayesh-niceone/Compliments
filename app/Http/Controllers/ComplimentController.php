@@ -12,6 +12,7 @@ use App\Models\Worker;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ComplimentController extends Controller
 {
@@ -149,7 +150,7 @@ class ComplimentController extends Controller
 
     public function createCustomer()
     {
-        $completionTypes = CompletionType::all();
+        $completionTypes = CompletionType::where('type','customer')->get();
         return view('compliments.customer_form', compact('completionTypes'));
     }
 
@@ -193,7 +194,7 @@ class ComplimentController extends Controller
     {
         $departmentId = $request->get('department_id');
         $workers = Worker::where('department_id', $departmentId)->get();
-        $completionTypes = CompletionType::all();
+        $completionTypes = CompletionType::where('type','worker')->get();
 
         return view('compliments.worker_form', compact('workers', 'completionTypes', 'departmentId'));
     }
@@ -229,5 +230,37 @@ class ComplimentController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Worker compliment submitted successfully!');
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $data = Compliment::with(['department', 'careUser', 'completion_type', 'status'])
+            ->select('compliments.*');
+
+        if ($request->filled('department_id')) {
+            $data->whereIn('department_id', $request->department_id);
+        }
+        if ($request->filled('completion_type_id')) {
+            $data->whereIn('completion_type_id', $request->completion_type_id);
+        }
+        if ($request->filled('status_id')) {
+            $data->whereIn('status_id', $request->status_id);
+        }
+        if ($request->filled('care_user_id')) {
+            $data->whereIn('care_user_id', $request->care_user_id);
+        }
+        if ($request->filled('target_type')) {
+            $data->whereIn('target_type', $request->target_type);
+        }
+        if ($request->filled('date_from') && $request->filled('date_to')) {
+            $data->whereBetween('created_at', [$request->date_from, $request->date_to]);
+        }
+
+        $compliments = $data->get();
+
+        $pdf = Pdf::loadView('compliments.pdf', compact('compliments'))
+            ->setPaper('A4', 'landscape');
+
+        return $pdf->download('compliments.pdf');
     }
 }

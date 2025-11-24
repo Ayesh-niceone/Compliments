@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}" />
     <link href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -36,6 +37,8 @@
 
 <!-- DataTables Bootstrap 5 JS -->
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     @stack('scripts')
 </body>
 

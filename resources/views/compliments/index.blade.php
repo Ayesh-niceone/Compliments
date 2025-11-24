@@ -3,7 +3,8 @@
 @section('content')
     <div class="row mb-3">
         <div class="col-md-2">
-            <select id="filterDepartment" class="form-select">
+            <label for="">{{ __('Departments') }}</label>
+            <select id="filterDepartment" class="form-select select2" multiple>
                 <option value="">{{ __('All Departments') }}</option>
                 @foreach ($departments as $d)
                     <option value="{{ $d->id }}">{{ $d->name }}</option>
@@ -12,7 +13,9 @@
         </div>
 
         <div class="col-md-2">
-            <select id="filterCompletionType" class="form-select">
+                        <label for="">{{ __('Completion Types') }}</label>
+
+            <select id="filterCompletionType" class="form-select select2" multiple>
                 <option value="">{{ __('All Completion Types') }}</option>
                 @foreach ($completionTypes as $ct)
                     <option value="{{ $ct->id }}">{{ $ct->name }}</option>
@@ -21,7 +24,8 @@
         </div>
 
         <div class="col-md-2">
-            <select id="filterStatus" class="form-select">
+            <label for="">{{ __('Statuses') }}</label>
+            <select id="filterStatus" class="form-select select2" multiple>
                 <option value="">{{ __('All Statuses') }}</option>
                 @foreach ($statuses as $s)
                     <option value="{{ $s->id }}">{{ $s->name }}</option>
@@ -30,7 +34,8 @@
         </div>
 
         <div class="col-md-2">
-            <select id="filterCareUser" class="form-select">
+            <label for="">{{ __('Care Users') }}</label>
+            <select id="filterCareUser" class="form-select select2" multiple>
                 <option value="">{{ __('All Care Users') }}</option>
                 @foreach ($careUsers as $u)
                     <option value="{{ $u->id }}">{{ $u->name }}</option>
@@ -39,22 +44,13 @@
         </div>
 
         <div class="col-md-2">
-            <select id="filterTargetType" class="form-select">
+            <label for="">{{ __('Target Types') }}</label>
+            <select id="filterTargetType" class="form-select select2" multiple>
                 <option value="">{{ __('All Target Types') }}</option>
                 <option value="customer">{{ __('Customer') }}</option>
                 <option value="worker">{{ __('Worker') }}</option>
             </select>
         </div>
-
-        <div class="col-md-2 text-end">
-            <button class="btn btn-success" id="exportExcelBtn">
-                <i class="ti ti-download"></i> {{ __('Export Excel') }}
-            </button>
-        </div>
-    </div>
-
-    <!-- Date range filters -->
-    <div class="row mb-4">
         <div class="col-md-3">
             <label>{{ __('From Date') }}</label>
             <input type="date" id="filterDateFrom" class="form-control">
@@ -65,6 +61,22 @@
         </div>
         <div class="col-md-3 d-flex align-items-end">
             <button id="clearFilters" class="btn btn-outline-secondary">{{ __('Clear Filters') }}</button>
+        </div>
+
+
+    </div>
+
+    <!-- Date range filters -->
+    <div class="row mb-4">
+        <div class="col-md-3 d-flex gap-2">
+            <button class="btn btn-success" id="exportExcelBtn">
+                <i class="ti ti-download"></i> {{ __('Export Excel') }}
+            </button>
+
+            <button class="btn btn-danger" id="exportPdfBtn">
+                <i class="ti ti-file-text"></i> {{ __('Export PDF') }}
+            </button>
+
         </div>
     </div>
 
@@ -222,7 +234,20 @@
                 window.location.href = "{{ route('compliments.export') }}?" + params;
             });
 
+            $('#exportPdfBtn').click(function() {
+                let params = $.param({
+                    department_id : $('#filterDepartment').val(),
+                    completion_type_id : $('#filterCompletionType').val(),
+                    status_id : $('#filterStatus').val(),
+                    care_user_id : $('#filterCareUser').val(),
+                    target_type : $('#filterTargetType').val(),
+                    date_from : $('#filterDateFrom').val(),
+                    date_to : $('#filterDateTo').val()
+                });
+                window.location.href = "{{ route('compliments.export.pdf') }}?" + params;
+            });
 
+            $('.form-select').select2();
         });
     </script>
     <script>

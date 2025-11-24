@@ -24,14 +24,25 @@ class CompletionTypeController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate(['name' => 'required|string|max:255']);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'type' => 'required|in:worker,customer',
+        ]);
+
         CompletionType::create($request->all());
+
         return response()->json(['success' => true]);
     }
 
     public function update(Request $request, CompletionType $completionType)
     {
-        $request->validate(['name' => 'required|string|max:255']);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'type' => 'required|in:worker,customer',
+        ]);
+
+        CompletionType::create($request->all());
+
         $completionType->update(['name' => $request->name]);
         return response()->json(['success' => true]);
     }

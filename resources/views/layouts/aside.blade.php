@@ -32,7 +32,7 @@
                 @canany(['view compliments', 'create compliments', 'edit compliments', 'delete compliments'])
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('compliments.index') }}" aria-expanded="false">
-                            <span><i class="ti ti-gift"></i></span>
+                            <span><i class="ti ti-report"></i></span>
                             <span class="hide-menu">{{ __('Compliments') }}</span>
                         </a>
                     </li>
@@ -42,7 +42,7 @@
                 @canany(['view departments', 'create departments', 'edit departments', 'delete departments'])
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('departments.index') }}" aria-expanded="false">
-                            <span><i class="ti ti-building"></i></span>
+                            <span><i class="ti ti-pin"></i></span>
                             <span class="hide-menu">{{ __('Departments') }}</span>
                         </a>
                     </li>
@@ -52,7 +52,7 @@
                 @canany(['view statuses', 'create statuses', 'edit statuses', 'delete statuses'])
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('statuses.index') }}" aria-expanded="false">
-                            <span><i class="ti ti-checklist"></i></span>
+                            <span><i class="ti ti-bookmark"></i></span>
                             <span class="hide-menu">{{ __('Statuses') }}</span>
                         </a>
                     </li>
@@ -62,7 +62,7 @@
                 @canany(['view completion_types', 'create completion_types', 'edit completion_types', 'delete completion_types'])
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('completion_types.index') }}" aria-expanded="false">
-                            <span><i class="ti ti-list"></i></span>
+                            <span><i class="ti ti-link"></i></span>
                             <span class="hide-menu">{{ __('Completion Types') }}</span>
                         </a>
                     </li>
