@@ -12,7 +12,7 @@ use App\Models\Worker;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
-use Pdf;
+use Barryvdh\DomPDF\Facade\Pdf; // Or just 'use PDF;' if the alias is properly registered
 
 class ComplimentController extends Controller
 {
@@ -258,7 +258,7 @@ class ComplimentController extends Controller
 
         $compliments = $data->get();
 
-        $pdf = \PDF::loadView('compliments.pdf', compact('compliments'))
+        $pdf = Pdf::loadView('compliments.pdf', compact('compliments'))
             ->setPaper('A4', 'landscape');
 
         return $pdf->download('compliments.pdf');
