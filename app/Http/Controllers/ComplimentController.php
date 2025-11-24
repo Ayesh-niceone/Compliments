@@ -12,7 +12,7 @@ use App\Models\Worker;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
-use Barryvdh\DomPDF\Facade\Pdf;
+use Pdf;
 
 class ComplimentController extends Controller
 {
