@@ -2,7 +2,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-    <title>{{ $title }}</title>
     <style>
         @font-face {
             font-family: 'Amiri';
