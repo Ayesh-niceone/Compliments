@@ -1,23 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+    <title>{{ $title }}</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
+        @font-face {
+            font-family: 'Amiri';
+            src: url("{{ public_path('fonts/Amiri-Regular.ttf') }}") format('truetype');
+            font-weight: normal;
+            font-style: normal;
         }
-        th, td {
-            border: 1px solid #444;
-            padding: 5px;
-            text-align: left;
-        }
-        th {
-            background: #f0f0f0;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
+
+        body {
+            font-family: 'Amiri', serif;
+            direction: rtl;
+            text-align: right;
         }
     </style>
 </head>
