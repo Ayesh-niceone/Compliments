@@ -3,15 +3,8 @@
 <head>
 <meta charset="UTF-8">
     <style>
-        @font-face {
-            font-family: 'Amiri';
-            src: url("{{ storage_path('fonts/Amiri-Regular.ttf') }}") format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-
         body {
-            font-family: 'Amiri', serif;
+            font-family: "DejaVu Sans", sans-serif;
             direction: rtl;
             text-align: right;
         }
