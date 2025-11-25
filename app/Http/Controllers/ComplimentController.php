@@ -27,19 +27,19 @@ class ComplimentController extends Controller
 
             // ✅ Apply filters if provided
             if ($request->filled('department_id')) {
-                $data->where('department_id', $request->department_id);
+                $data->whereIn('department_id', $request->department_id);
             }
             if ($request->filled('completion_type_id')) {
-                $data->where('completion_type_id', $request->completion_type_id);
+                $data->whereIn('completion_type_id', $request->completion_type_id);
             }
             if ($request->filled('status_id')) {
-                $data->where('status_id', $request->status_id);
+                $data->whereIn('status_id', $request->status_id);
             }
             if ($request->filled('care_user_id')) {
-                $data->where('care_user_id', $request->care_user_id);
+                $data->whereIn('care_user_id', $request->care_user_id);
             }
             if ($request->filled('target_type')) {
-                $data->where('target_type', $request->target_type);
+                $data->whereIn('target_type', $request->target_type);
             }
             if ($request->filled('date_from') && $request->filled('date_to')) {
                 $data->whereBetween('created_at', [$request->date_from, $request->date_to]);
