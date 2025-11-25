@@ -166,11 +166,14 @@ class ComplimentController extends Controller
             'plate_number'       => 'nullable|string|max:50',
             'comment'            => 'required|string|max:1000',
             'images.*'           => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'audio'              => 'nullable|file|mimetypes:audio/mpeg,audio/mp3,audio/webm|max:10240', // 10MB
+            'video'              => 'nullable|file|mimetypes:video/mp4,video/webm|max:51200', // 50MB
             'department_id'      => 'required|exists:departments,id',
-
         ]);
 
-        // Handle up to 3 image uploads
+        /* ------------------------------------
+        HANDLE IMAGES (UP TO 3)
+    ------------------------------------ */
         $images = [];
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $file) {
@@ -178,7 +181,26 @@ class ComplimentController extends Controller
             }
         }
 
-        Compliment::create([
+        /* ------------------------------------
+        HANDLE AUDIO
+    ------------------------------------ */
+        $audioPath = null;
+        if ($request->hasFile('audio')) {
+            $audioPath = $request->file('audio')->store('compliments/audio', 'public');
+        }
+
+        /* ------------------------------------
+        HANDLE VIDEO
+    ------------------------------------ */
+        $videoPath = null;
+        if ($request->hasFile('video')) {
+            $videoPath = $request->file('video')->store('compliments/video', 'public');
+        }
+
+        /* ------------------------------------
+        SAVE COMPLIMENT
+    ------------------------------------ */
+        $compliment = Compliment::create([
             'customer_name'      => $validated['customer_name'],
             'phone'              => $validated['phone'],
             'plate_number'       => $validated['plate_number'] ?? null,
@@ -187,16 +209,24 @@ class ComplimentController extends Controller
             'department_id'      => $validated['department_id'],
             'target_type'        => 'customer',
             'images'             => json_encode($images),
-            'status_id'          => 1, // default "New"
+            'audio'              => $audioPath,       // <---- NEW
+            'video'              => $videoPath,       // <---- NEW
+            'status_id'          => 1,
         ]);
+
+        /* ------------------------------------
+        SEND NOTIFICATION TO ADMINS
+    ------------------------------------ */
         $users = User::whereIn('role', ['Admin'])->get();
 
         Notification::send($users, new SystemNotification(
             'New customer compliment submitted!',
-            ['type' => 'compliment', 'id' => Compliment::latest()->first()->id]
+            ['type' => 'compliment', 'id' => $compliment->id]
         ));
+
         return redirect()->back()->with('success', 'Your compliment has been submitted successfully!');
     }
+
 
     public function createWorker(Request $request)
     {
