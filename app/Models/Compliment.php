@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Compliment extends Model
+class Compliment extends Loggable
 {
     use HasFactory;
 
@@ -35,7 +35,7 @@ class Compliment extends Model
         'images' => 'array',
         'video' => 'array',      // if storing multiple video URLs or files
         'audio' => 'array',      // if storing multiple audio files
-       
+
     ];
 
     public function department()

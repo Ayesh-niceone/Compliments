@@ -13,6 +13,8 @@ use App\Http\Controllers\{
 };
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Spatie\Activitylog\Models\Activity;
+use App\Http\Controllers\NotificationController;
 
 // Redirect root to login
 Route::get('/', function () {
@@ -76,3 +78,24 @@ Route::post('/compliments/worker/store', [ComplimentController::class, 'storeWor
     ->name('compliments.storeWorker');
 Route::get('/compliments-export-pdf', [ComplimentController::class, 'exportPdf'])
     ->name('compliments.export.pdf');
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/logs', function () {
+        $logs = Activity::with('causer')
+            ->latest()
+            ->paginate(25);
+
+        return view('logs.index', compact('logs'));
+    })->name('logs.index');
+
+    Route::get('/logs/{log}', function (Activity $log) {
+        return view('logs.show', compact('log'));
+    })->name('logs.show');
+
+});
+
+
+
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+Route::post('/notifications/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');

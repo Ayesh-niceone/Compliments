@@ -117,7 +117,14 @@
                         </a>
                     </li>
                 @endcanany
-
+                @can('view logs')
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('logs.index') }}" aria-expanded="false">
+                        <span><i class="ti ti-list-details"></i></span>
+                        <span class="hide-menu">{{ __('Activity Logs') }}</span>
+                    </a>
+                </li>
+                @endcan
             </ul>
         </nav>
     </div>

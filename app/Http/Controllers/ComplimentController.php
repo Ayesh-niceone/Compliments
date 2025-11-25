@@ -9,10 +9,13 @@ use App\Models\Department;
 use App\Models\Status;
 use App\Models\User;
 use App\Models\Worker;
+use App\Notifications\SystemNotification;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
-use Barryvdh\DomPDF\Facade\Pdf; // Or just 'use PDF;' if the alias is properly registered
+use Mpdf\Mpdf;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Notification;
 
 class ComplimentController extends Controller
 {
@@ -150,7 +153,7 @@ class ComplimentController extends Controller
 
     public function createCustomer()
     {
-        $completionTypes = CompletionType::where('type','customer')->get();
+        $completionTypes = CompletionType::where('type', 'customer')->get();
         return view('compliments.customer_form', compact('completionTypes'));
     }
 
@@ -186,7 +189,12 @@ class ComplimentController extends Controller
             'images'             => json_encode($images),
             'status_id'          => 1, // default "New"
         ]);
+        $users = User::whereIn('role', ['Admin'])->get();
 
+        Notification::send($users, new SystemNotification(
+            'New customer compliment submitted!',
+            ['type' => 'compliment', 'id' => Compliment::latest()->first()->id]
+        ));
         return redirect()->back()->with('success', 'Your compliment has been submitted successfully!');
     }
 
@@ -194,7 +202,7 @@ class ComplimentController extends Controller
     {
         $departmentId = $request->get('department_id');
         $workers = Worker::where('department_id', $departmentId)->get();
-        $completionTypes = CompletionType::where('type','worker')->get();
+        $completionTypes = CompletionType::where('type', 'worker')->get();
 
         return view('compliments.worker_form', compact('workers', 'completionTypes', 'departmentId'));
     }
@@ -206,34 +214,111 @@ class ComplimentController extends Controller
             'department_id'      => 'required|exists:departments,id',
             'completion_type_id' => 'required|exists:completion_types,id',
             'plate_number'       => 'nullable|string|max:50',
+            'missed_pay'         => 'nullable|string|max:100',
             'comment'            => 'required|string|max:1000',
+
+            // Images
             'images.*'           => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+
+            // Base64 video/audio
+            'video'              => 'nullable|string',
+            'audio'              => 'nullable|string',
         ]);
 
-        // Handle up to 3 images
+
+        /* ---------------------------------------------------------
+     *  HANDLE IMAGES (MAX 3)
+     * --------------------------------------------------------- */
         $images = [];
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $file) {
-                $images[] = $file->store('compliments', 'public');
+            $files = $request->file('images');
+
+            if (count($files) > 3) {
+                return back()->withErrors(['images' => 'You can upload a maximum of 3 images.']);
+            }
+
+            foreach ($files as $file) {
+                $images[] = $file->store('compliments/images', 'public');
             }
         }
 
+
+        /* ---------------------------------------------------------
+     *  HANDLE VIDEO BASE64 → FILE
+     * --------------------------------------------------------- */
+        $videoPath = null;
+
+        if (!empty($validated['video'])) {
+            $videoData = $validated['video'];
+
+            if (preg_match('/^data:video\/\w+;base64,/', $videoData)) {
+                $videoData = substr($videoData, strpos($videoData, ',') + 1);
+            }
+
+            $videoBinary = base64_decode($videoData);
+
+            $videoName = 'compliments/videos/video_' . time() . '.webm';
+            Storage::disk('public')->put($videoName, $videoBinary);
+
+            $videoPath = $videoName;
+        }
+
+
+        /* ---------------------------------------------------------
+     *  HANDLE AUDIO BASE64 → FILE
+     * --------------------------------------------------------- */
+        $audioPath = null;
+
+        if (!empty($validated['audio'])) {
+            $audioData = $validated['audio'];
+
+            if (preg_match('/^data:audio\/\w+;base64,/', $audioData)) {
+                $audioData = substr($audioData, strpos($audioData, ',') + 1);
+            }
+
+            $audioBinary = base64_decode($audioData);
+
+            $audioName = 'compliments/audio/audio_' . time() . '.webm';
+            Storage::disk('public')->put($audioName, $audioBinary);
+
+            $audioPath = $audioName;
+        }
+
+
+        /* ---------------------------------------------------------
+     *  CREATE COMPLIMENT RECORD
+     * --------------------------------------------------------- */
         Compliment::create([
             'worker_id'          => $validated['worker_id'],
             'department_id'      => $validated['department_id'],
             'completion_type_id' => $validated['completion_type_id'],
             'plate_number'       => $validated['plate_number'] ?? null,
+            'missed_pay'         => $validated['missed_pay'] ?? null,
             'comment'            => $validated['comment'],
+
             'target_type'        => 'worker',
-            'images'             => json_encode($images),
             'status_id'          => 1,
+
+            'images'             => json_encode($images),
+            'video'              => $videoPath,
+            'audio'              => $audioPath,
         ]);
 
+
+        $users = User::whereIn('role', ['Admin'])->get();
+
+        Notification::send($users, new SystemNotification(
+            'New worker compliment submitted!',
+            ['type' => 'compliment', 'id' => Compliment::latest()->first()->id]
+        ));
         return redirect()->back()->with('success', 'Worker compliment submitted successfully!');
     }
 
+
+
     public function exportPdf(Request $request)
     {
+        // Fetch data with filters
         $data = Compliment::with(['department', 'careUser', 'completion_type', 'status'])
             ->select('compliments.*');
 
@@ -258,9 +343,20 @@ class ComplimentController extends Controller
 
         $compliments = $data->get();
 
-        $pdf = Pdf::loadView('compliments.pdf', compact('compliments'))
-            ->setPaper('A4', 'landscape');
+        // Render Blade view to HTML
+        $html = view('compliments.pdf', compact('compliments'))->render();
 
-        return $pdf->download('compliments.pdf');
+        // Create new mPDF instance
+        $mpdf = new Mpdf([
+            'format' => 'A4-L', // A4 Landscape
+            'tempDir' => storage_path('app/temp'), // optional: avoid permission issues
+        ]);
+
+        $mpdf->WriteHTML($html);
+
+        // Output PDF as download
+        return response()->streamDownload(function () use ($mpdf) {
+            echo $mpdf->Output('', 'S'); // Send to browser
+        }, 'compliments.pdf');
     }
 }

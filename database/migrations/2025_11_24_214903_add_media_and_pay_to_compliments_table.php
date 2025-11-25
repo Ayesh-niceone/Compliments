@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::table('compliments', function (Blueprint $table) {
             $table->json('video')->nullable();
             $table->json('audio')->nullable();
-            $table->string('missed_pay');
-            $table->string('paid');
+            $table->string('missed_pay')->nullable();
+            $table->string('paid')->nullable();
         });
     }
 

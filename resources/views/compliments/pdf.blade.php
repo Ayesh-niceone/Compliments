@@ -18,14 +18,14 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>Customer</th>
-            <th>Department</th>
-            <th>Phone</th>
-            <th>Plate</th>
-            <th>Created At</th>
-            <th>Completion</th>
-            <th>Care User</th>
-            <th>Status</th>
+            <th>{{__('Customer Name')}}</th>
+            <th>{{__('Department')}}</th>
+            <th>{{__('Phone')}}</th>
+            <th>{{__('Plate Number')}}</th>
+            <th>{{__('Created At')}}</th>
+            <th>{{__('Completion Type')}}</th>
+            <th>{{__('Care User')}}</th>
+            <th>{{__('Status')}}</th>
         </tr>
     </thead>
 

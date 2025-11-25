@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Status extends Model
+class Status extends Loggable
 {
     use HasFactory;
 

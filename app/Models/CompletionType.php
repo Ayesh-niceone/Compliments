@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-class CompletionType extends Model
+class CompletionType extends Loggable
 {
     use HasFactory;
 

@@ -43,6 +43,7 @@ class PermissionSeeder extends Seeder
             'assign roles',
             'manage permissions',
             'view dashboard',
+            'view logs'
         ];
 
         foreach ($specialPermissions as $perm) {

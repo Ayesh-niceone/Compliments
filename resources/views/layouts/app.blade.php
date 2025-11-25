@@ -38,7 +38,31 @@
 <!-- DataTables Bootstrap 5 JS -->
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        document.querySelectorAll('.notif-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const id = this.dataset.id;
 
+                fetch("{{ route('notifications.markAsRead') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({id: id})
+                }).then(res => res.json()).then(data => {
+                    if(data.success){
+                        this.remove(); // remove from dropdown
+                        let countElem = document.getElementById('notif-count');
+                        let count = parseInt(countElem.innerText);
+                        countElem.innerText = count - 1;
+                    }
+                });
+            });
+        });
+
+    </script>
     @stack('scripts')
 </body>
 

@@ -8,9 +8,34 @@
               </a>
             </li>
 
+
           </ul>
           <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownNotifications" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="ti ti-bell"></i>
+                    <span class="badge bg-danger" id="notif-count">{{ auth()->user()->unreadNotifications->count() }}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownNotifications" style="width: 300px;">
+                    <li class="dropdown-header"><i class="ti ti-bell"></i></li>
+                    <div id="notif-list">
+                        @forelse(auth()->user()->unreadNotifications as $notification)
+                            <li>
+                                <a href="/compliments/{{$notification->data['data']['id']}}" class="dropdown-item notif-item" data-id="{{ $notification->id }}">
+                                    {{ $notification->data['message'] }}
+                                    <br>
+                                    <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+                                </a>
+                            </li>
+                        @empty
+                            <li><span class="dropdown-item text-muted">No new notifications</span></li>
+                        @endforelse
+                    </div>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a href="{{ route('notifications.index') }}" class="dropdown-item text-center">View All</a></li>
+                </ul>
+            </li>
               <li class="nav-item dropdown">
                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
                   aria-expanded="false">
