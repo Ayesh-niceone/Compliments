@@ -107,5 +107,12 @@ Route::middleware(['auth'])->group(function () {
 
 
 
+Route::middleware('web')->get('/debug-locale', function () {
+    return response()->json([
+        'app_locale' => app()->getLocale(),
+        'session_locale' => session('locale'),
+        'session_id' => session()->getId(),
+    ]);
+});
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 Route::post('/notifications/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
