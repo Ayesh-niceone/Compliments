@@ -4,18 +4,16 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class SetLocale
 {
     public function handle(Request $request, Closure $next)
     {
         // Force locale from session OR fallback
-        $locale = session()->get('locale', config('app.locale'));
-        app()->setLocale($locale);
-
-        // Also force Carbon locale if needed
-        \Carbon\Carbon::setLocale($locale);
-
+        if(session('locale')) {
+            App::setLocale(session('locale'));
+        }
         return $next($request);
     }
 }
