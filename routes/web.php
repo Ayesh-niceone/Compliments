@@ -23,13 +23,12 @@ Route::get('/', function () {
 Route::get('change-language/{lang}', function ($lang) {
 
     if (!in_array($lang, ['en', 'ar'])) {
-        abort(400);
+        abort(404);
     }
 
-    session(['locale' => $lang]);
-    app()->setLocale($lang);
+    session()->put('locale', $lang);
 
-    return redirect()->back();
+    return back()->with('lang_changed', $lang);
 
 })->name('change.language');
 // Public + Auth scaffolding routes
