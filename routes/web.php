@@ -26,7 +26,7 @@ Route::get('change-language/{lang}', function ($lang) {
         abort(404);
     }
 
-    app()->setLocale($lang);
+    session()->put('locale', $lang);
 
     return back()->with('lang_changed', $lang);
 
