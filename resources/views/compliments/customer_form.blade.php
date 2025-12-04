@@ -1,45 +1,143 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ __('Submit a Compliment') }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light" dir="rtl">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<div class="container mt-5">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Brand Variables -->
+    <style>
+        :root {
+            --brand-color: #4f46e5;   /* ✅ Change this for any brand */
+            --brand-dark: #3730a3;
+            --page-bg: #f4f6fb;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --border-soft: #e5e7eb;
+        }
+
+        body {
+            background: var(--page-bg);
+            font-family: "Tajawal", sans-serif;
+            color: var(--text-main);
+        }
+
+        .brand-header {
+            text-align: center;
+            padding: 35px 20px 20px;
+        }
+
+        .brand-header img {
+            max-width: 110px;
+            margin-bottom: 12px;
+        }
+
+        .brand-title {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .brand-subtitle {
+            font-size: 14px;
+            opacity: .75;
+        }
+
+        .form-card {
+            max-width: 720px;
+            margin: auto;
+            background: var(--card-bg);
+            border-radius: 18px;
+            box-shadow: 0 15px 35px rgba(0,0,0,.05);
+            border: 1px solid var(--border-soft);
+            overflow: hidden;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .form-control, .form-select {
+            border-radius: 12px;
+            height: 48px;
+        }
+
+        textarea.form-control {
+            height: auto;
+        }
+
+        .btn-brand {
+            background: var(--brand-color);
+            border: none;
+            padding: 12px 26px;
+            border-radius: 14px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .btn-brand:hover {
+            background: var(--brand-dark);
+        }
+
+        .rec-btn {
+            border-radius: 10px;
+            padding: 6px 14px;
+        }
+
+        .section-label {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .success-box {
+            max-width: 720px;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container py-5">
+
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+        <div class="alert alert-success success-box text-center">
+            {{ session('success') }}
+        </div>
     @endif
 
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white text-center">
-            <img src="{{ asset('assets/images/logos/logo.png') }}" width="100" alt="Logo" class="mt-2" />
-            <h3>{{ __('Customer Compliment Form') }}</h3>
-            <p class="mb-0">{{ __('We appreciate your feedback!') }}</p>
+    <div class="form-card">
+
+        <!-- BRAND HEADER -->
+        <div class="brand-header">
+            <img src="{{ asset('assets/images/logos/logo.png') }}" alt="Logo">
+            <div class="brand-title">{{ __('Customer Compliment Form') }}</div>
+            <div class="brand-subtitle">{{ __('We appreciate your feedback!') }}</div>
         </div>
 
+        <!-- FORM BODY -->
         <div class="card-body">
             <form action="{{ route('compliments.storeCustomer') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="department_id" value="{{ request()->get('department_id') }}">
 
-                <div class="row mb-3">
+                <div class="row g-3 mb-3">
                     <div class="col-md-6">
-                        <label class="form-label">{{ __('Customer Name') }}</label>
+                        <label class="section-label">{{ __('Customer Name') }}</label>
                         <input type="text" name="customer_name" class="form-control" required>
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label">{{ __('Phone Number') }}</label>
+                        <label class="section-label">{{ __('Phone Number') }}</label>
                         <input type="text" name="phone" class="form-control" required>
                     </div>
                 </div>
 
-                <div class="row mb-3">
+                <div class="row g-3 mb-3">
                     <div class="col-md-6">
-                        <label class="form-label">{{ __('Completion Type') }}</label>
+                        <label class="section-label">{{ __('Completion Type') }}</label>
                         <select name="completion_type_id" class="form-select" required>
                             <option value="">{{ __('Select Type') }}</option>
                             @foreach($completionTypes as $type)
@@ -49,49 +147,46 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label">{{ __('Plate Number') }} ({{ __('optional') }})</label>
+                        <label class="section-label">{{ __('Plate Number') }} ({{ __('optional') }})</label>
                         <input type="text" name="plate_number" class="form-control">
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">{{ __('Your Comment') }}</label>
-                    <textarea name="comment" rows="3" class="form-control" required></textarea>
+                    <label class="section-label">{{ __('Your Comment') }}</label>
+                    <textarea name="comment" class="form-control" rows="4" required></textarea>
                 </div>
 
-                {{-- UPLOAD IMAGES --}}
+                <!-- IMAGE UPLOAD -->
                 <div class="mb-3">
-                    <label class="form-label">{{ __('Upload Images (Max 3)') }}</label>
-                    <input type="file" name="images[]" class="form-control mb-2" multiple accept="image/*">
+                    <label class="section-label">{{ __('Upload Images (Max 3)') }}</label>
+                    <input type="file" name="images[]" class="form-control" multiple accept="image/*">
                 </div>
 
-                {{-- AUDIO RECORD --}}
+                <!-- AUDIO RECORD -->
                 <div class="mb-3">
-                    <label class="form-label">{{ __('Record Audio') }}</label><br>
-
-                    <button type="button" id="startAudio" class="btn btn-secondary btn-sm">🎤 بدء التسجيل</button>
-                    <button type="button" id="stopAudio" class="btn btn-danger btn-sm" disabled>⛔ إيقاف</button>
-
-                    <audio id="audioPreview" controls class="mt-2 w-100" style="display:none"></audio>
-
-                    <input type="file" id="audioFile" name="audio" style="display:none" />
+                    <label class="section-label">{{ __('Record Audio') }}</label><br>
+                    <button type="button" id="startAudio" class="btn btn-outline-secondary rec-btn">🎤 بدء التسجيل</button>
+                    <button type="button" id="stopAudio" class="btn btn-outline-danger rec-btn" disabled>⛔ إيقاف</button>
+                    <audio id="audioPreview" controls class="mt-2 w-100 d-none"></audio>
+                    <input type="file" id="audioFile" name="audio" hidden>
                 </div>
 
-                {{-- VIDEO RECORD --}}
-                <div class="mb-3">
-                    <label class="form-label">{{ __('Record Video') }}</label><br>
-
-                    <button type="button" id="startVideo" class="btn btn-secondary btn-sm">🎥 بدء التسجيل</button>
-                    <button type="button" id="stopVideo" class="btn btn-danger btn-sm" disabled>⛔ إيقاف</button>
-
-                    <video id="videoPreview" controls class="mt-2 w-100" style="display:none"></video>
-
-                    <input type="file" id="videoFile" name="video" style="display:none" />
+                <!-- VIDEO RECORD -->
+                <div class="mb-4">
+                    <label class="section-label">{{ __('Record Video') }}</label><br>
+                    <button type="button" id="startVideo" class="btn btn-outline-secondary rec-btn">🎥 بدء التسجيل</button>
+                    <button type="button" id="stopVideo" class="btn btn-outline-danger rec-btn" disabled>⛔ إيقاف</button>
+                    <video id="videoPreview" controls class="mt-2 w-100 d-none"></video>
+                    <input type="file" id="videoFile" name="video" hidden>
                 </div>
 
-                <div class="text-end">
-                    <button type="submit" class="btn btn-primary px-4">{{ __('Submit') }}</button>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-brand px-5">
+                        {{ __('Submit') }}
+                    </button>
                 </div>
+
             </form>
         </div>
     </div>
@@ -182,6 +277,5 @@ document.getElementById('stopVideo').onclick = function() {
     document.getElementById('stopVideo').disabled = true;
 };
 </script>
-
 </body>
 </html>
