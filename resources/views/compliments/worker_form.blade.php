@@ -89,13 +89,6 @@
     @endif
 
     <div class="form-card">
-
-        <!-- HEADER -->
-        <div class="brand-header">
-            <img src="{{ logo() }}" alt="Logo">
-            <div class="brand-title">{{ __('Worker Compliment Form') }}</div>
-            <div class="brand-subtitle">{{ __('We appreciate your contribution!') }}</div>
-        </div>
             <li class="nav-item dropdown me-3">
                 <a class="nav-link dropdown-toggle nav-icon-hover" href="javascript:void(0)"
                 id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -120,6 +113,13 @@
                     @endif
                 </ul>
             </li>
+        <!-- HEADER -->
+        <div class="brand-header">
+            <img src="{{ logo() }}" alt="Logo">
+            <div class="brand-title">{{ __('Worker Compliment Form') }}</div>
+            <div class="brand-subtitle">{{ __('We appreciate your contribution!') }}</div>
+        </div>
+
         <!-- FORM -->
         <div class="card-body">
             <form action="{{ route('compliments.storeWorker') }}" method="POST" enctype="multipart/form-data">
