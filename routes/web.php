@@ -20,7 +20,18 @@ use App\Http\Controllers\NotificationController;
 Route::get('/', function () {
     return redirect()->route('login');
 });
+Route::get('change-language/{lang}', function ($lang) {
 
+    if (!in_array($lang, ['en', 'ar'])) {
+        abort(400);
+    }
+
+    session(['locale' => $lang]);
+    app()->setLocale($lang);
+
+    return redirect()->back();
+
+})->name('change.language');
 // Public + Auth scaffolding routes
 require __DIR__ . '/auth.php';
 

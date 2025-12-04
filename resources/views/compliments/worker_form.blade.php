@@ -142,8 +142,8 @@
                     <label class="section-label">{{ __('Record Video') }}</label>
                     <video id="videoPreview" class="w-100 rounded border" height="220" autoplay muted></video>
                     <div class="mt-2">
-                        <button type="button" id="startVideo" class="btn btn-outline-secondary rec-btn">🎥 Start</button>
-                        <button type="button" id="stopVideo" class="btn btn-outline-danger rec-btn" disabled>⛔ Stop</button>
+                        <button type="button" id="startVideo" class="btn btn-outline-secondary rec-btn">🎥 {{__('Start Recording')}}</button>
+                        <button type="button" id="stopVideo" class="btn btn-outline-danger rec-btn" disabled>⛔ {{__('Stop')}}</button>
                     </div>
                     <input type="hidden" name="video" id="videoInput">
                 </div>
@@ -152,8 +152,8 @@
                 <div class="mb-3">
                     <label class="section-label">{{ __('Record Audio') }}</label>
                     <div id="audioPreview" class="mb-2"></div>
-                    <button type="button" id="startAudio" class="btn btn-outline-secondary rec-btn">🎤 Start</button>
-                    <button type="button" id="stopAudio" class="btn btn-outline-danger rec-btn" disabled>⛔ Stop</button>
+                    <button type="button" id="startAudio" class="btn btn-outline-secondary rec-btn">🎤 {{__('Start Recording')}}</button>
+                    <button type="button" id="stopAudio" class="btn btn-outline-danger rec-btn" disabled>⛔ {{__('Stop')}}</button>
                     <input type="hidden" name="audio" id="audioInput">
                 </div>
 

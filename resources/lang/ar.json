@@ -139,5 +139,10 @@
     "Compliments By Care User":"الشكاوي حسب مسؤول خدمة العملاء",
     "Manage" : "إدارة",
     "Export PDF": "تصدير PDF",
-    "Activity Logs": "سجلات النشاط"
+    "Activity Logs": "سجلات النشاط",
+    "Upload Images (3)":"تحميل صور (3)",
+    "Record Audio":"تسجيل صوت",
+    "Record Video":"تسجيل فيديو",
+    "Start Recording":"بدء التسجيل",
+    "Stop":"توقف"
 }

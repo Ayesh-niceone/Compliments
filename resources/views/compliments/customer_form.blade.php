@@ -159,15 +159,15 @@
 
                 <!-- IMAGE UPLOAD -->
                 <div class="mb-3">
-                    <label class="section-label">{{ __('Upload Images (Max 3)') }}</label>
+                    <label class="section-label">{{ __('Upload Images (3)') }}</label>
                     <input type="file" name="images[]" class="form-control" multiple accept="image/*">
                 </div>
 
                 <!-- AUDIO RECORD -->
                 <div class="mb-3">
                     <label class="section-label">{{ __('Record Audio') }}</label><br>
-                    <button type="button" id="startAudio" class="btn btn-outline-secondary rec-btn">🎤 بدء التسجيل</button>
-                    <button type="button" id="stopAudio" class="btn btn-outline-danger rec-btn" disabled>⛔ إيقاف</button>
+                    <button type="button" id="startAudio" class="btn btn-outline-secondary rec-btn">🎤 {{__('Start Recode')}}</button>
+                    <button type="button" id="stopAudio" class="btn btn-outline-danger rec-btn" disabled>⛔ {{__('Stop')}}</button>
                     <audio id="audioPreview" controls class="mt-2 w-100 d-none"></audio>
                     <input type="file" id="audioFile" name="audio" hidden>
                 </div>
@@ -175,8 +175,8 @@
                 <!-- VIDEO RECORD -->
                 <div class="mb-4">
                     <label class="section-label">{{ __('Record Video') }}</label><br>
-                    <button type="button" id="startVideo" class="btn btn-outline-secondary rec-btn">🎥 بدء التسجيل</button>
-                    <button type="button" id="stopVideo" class="btn btn-outline-danger rec-btn" disabled>⛔ إيقاف</button>
+                    <button type="button" id="startVideo" class="btn btn-outline-secondary rec-btn">🎥 {{__('Start Recode')}}</button>
+                    <button type="button" id="stopVideo" class="btn btn-outline-danger rec-btn" disabled>⛔ {{__('Stop')}}</button>
                     <video id="videoPreview" controls class="mt-2 w-100 d-none"></video>
                     <input type="file" id="videoFile" name="video" hidden>
                 </div>
