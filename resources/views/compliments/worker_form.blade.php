@@ -92,7 +92,7 @@
 
         <!-- HEADER -->
         <div class="brand-header">
-            <img src="{{ asset('assets/images/logos/logo.png') }}" alt="Logo">
+            <img src="{{ logo() }}" alt="Logo">
             <div class="brand-title">{{ __('Worker Compliment Form') }}</div>
             <div class="brand-subtitle">{{ __('We appreciate your contribution!') }}</div>
         </div>
