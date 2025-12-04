@@ -18,7 +18,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
-<body dir=" {{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
+<body dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
         <!-- Sidebar Start -->
