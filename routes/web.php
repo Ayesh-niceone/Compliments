@@ -20,17 +20,7 @@ use App\Http\Controllers\NotificationController;
 Route::get('/', function () {
     return redirect()->route('login');
 });
-Route::get('change-language/{lang}', function ($lang) {
 
-    if (!in_array($lang, ['en', 'ar'])) {
-        abort(404);
-    }
-
-    session()->put('locale', $lang);
-
-    return back()->with('lang_changed', $lang);
-
-})->name('change.language');
 // Public + Auth scaffolding routes
 require __DIR__ . '/auth.php';
 
@@ -107,6 +97,9 @@ Route::middleware(['auth'])->group(function () {
 
 
 
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+Route::post('/notifications/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+
 Route::middleware('web')->get('/debug-locale', function () {
     return response()->json([
         'app_locale' => app()->getLocale(),
@@ -114,5 +107,11 @@ Route::middleware('web')->get('/debug-locale', function () {
         'session_id' => session()->getId(),
     ]);
 });
-Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
-Route::post('/notifications/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+
+Route::middleware('web')->group(function () {
+    Route::get('change-language/{lang}', function ($lang) {
+        if (!in_array($lang, ['en','ar'])) abort(404);
+        session(['locale' => $lang]);
+        return redirect()->back();
+    })->name('change.language');
+});
