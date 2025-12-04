@@ -1,36 +1,113 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ __('Submit Worker Compliment') }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light" dir="rtl">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<div class="container mt-5">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --brand-color: #4f46e5;
+            --brand-dark: #3730a3;
+            --page-bg: #f4f6fb;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --border-soft: #e5e7eb;
+        }
+
+        body {
+            background: var(--page-bg);
+            font-family: "Tajawal", sans-serif;
+            color: var(--text-main);
+        }
+
+        .brand-header {
+            text-align: center;
+            padding: 35px 20px 20px;
+        }
+
+        .brand-header img {
+            max-width: 110px;
+            margin-bottom: 12px;
+        }
+
+        .brand-title { font-size: 22px; font-weight: 700; }
+        .brand-subtitle { font-size: 14px; opacity: .75; }
+
+        .form-card {
+            max-width: 760px;
+            margin: auto;
+            background: var(--card-bg);
+            border-radius: 18px;
+            box-shadow: 0 15px 35px rgba(0,0,0,.05);
+            border: 1px solid var(--border-soft);
+            overflow: hidden;
+        }
+
+        .card-body { padding: 30px; }
+
+        .form-control, .form-select {
+            border-radius: 12px;
+            height: 48px;
+        }
+
+        textarea.form-control { height: auto; }
+
+        .btn-brand {
+            background: var(--brand-color);
+            border: none;
+            padding: 12px 26px;
+            border-radius: 14px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .btn-brand:hover { background: var(--brand-dark); }
+
+        .rec-btn {
+            border-radius: 10px;
+            padding: 6px 14px;
+        }
+
+        .section-label {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container py-5">
+
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+        <div class="alert alert-success text-center mb-4">
+            {{ session('success') }}
+        </div>
     @endif
 
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white text-center">
-            <img src="{{ asset('assets/images/logos/logo.png') }}" width="100" alt="Logo" class="mt-2" />
-            <h3>{{ __('Worker Compliment Form') }}</h3>
-            <p class="mb-0">{{ __('We appreciate your contribution!') }}</p>
+    <div class="form-card">
+
+        <!-- HEADER -->
+        <div class="brand-header">
+            <img src="{{ asset('assets/images/logos/logo.png') }}" alt="Logo">
+            <div class="brand-title">{{ __('Worker Compliment Form') }}</div>
+            <div class="brand-subtitle">{{ __('We appreciate your contribution!') }}</div>
         </div>
 
+        <!-- FORM -->
         <div class="card-body">
             <form action="{{ route('compliments.storeWorker') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-
                 <input type="hidden" name="department_id" value="{{ request()->get('department_id') }}">
 
-                <div class="row mb-3">
-                    <!-- Worker -->
+                <div class="row g-3 mb-3">
+
                     <div class="col-md-6">
-                        <label class="form-label">{{ __('Worker Name') }}</label>
-                        <select name="worker_id" id="worker_id" class="form-select" required>
+                        <label class="section-label">{{ __('Worker Name') }}</label>
+                        <select name="worker_id" class="form-select" required>
                             <option value="">{{ __('Select Worker') }}</option>
                             @foreach($workers as $worker)
                                 <option value="{{ $worker->id }}">{{ $worker->name }}</option>
@@ -38,10 +115,9 @@
                         </select>
                     </div>
 
-                    <!-- Completion Type -->
                     <div class="col-md-6">
-                        <label class="form-label">{{ __('Completion Type') }}</label>
-                        <select name="completion_type_id" id="completion_type_id" class="form-select" required>
+                        <label class="section-label">{{ __('Completion Type') }}</label>
+                        <select name="completion_type_id" class="form-select" required>
                             <option value="">{{ __('Select Type') }}</option>
                             @foreach($completionTypes as $type)
                                 <option value="{{ $type->id }}">{{ $type->name }}</option>
@@ -49,60 +125,57 @@
                         </select>
                     </div>
 
-                    <!-- Plate Number -->
-                    <div class="col-md-6 mt-3">
-                        <label class="form-label">{{ __('Plate Number') }}</label>
-                        <input type="text" name="plate_number" id="plate_number" class="form-control" required>
+                    <div class="col-md-6">
+                        <label class="section-label">{{ __('Plate Number') }}</label>
+                        <input type="text" name="plate_number" class="form-control" required>
                     </div>
 
-                    <!-- Missed Pay -->
-                    <div class="col-md-6 mt-3">
-                        <label class="form-label">{{ __('Missed Pay') }}</label>
+                    <div class="col-md-6">
+                        <label class="section-label">{{ __('Missed Pay') }}</label>
                         <input type="text" name="missed_pay" class="form-control" placeholder="{{ __('Optional') }}">
                     </div>
 
-                    <!-- Record Video -->
-                    <div class="col-md-6 mt-3">
-                        <label class="form-label">{{ __('Record Video') }}</label>
-                        <video id="videoPreview" width="100%" height="200" autoplay muted></video>
-
-                        <div class="mt-2">
-                            <button type="button" id="startVideo" class="btn btn-primary btn-sm">{{ __('Start Recording') }}</button>
-                            <button type="button" id="stopVideo" class="btn btn-danger btn-sm" disabled>{{ __('Stop Recording') }}</button>
-                        </div>
-
-                        <input type="hidden" name="video" id="videoInput">
-                    </div>
-
-                    <!-- Record Audio -->
-                    <div class="col-md-6 mt-3">
-                        <label class="form-label">{{ __('Record Audio') }}</label>
-
-                        <div id="audioPreview" class="mb-2"></div>
-
-                        <button type="button" id="startAudio" class="btn btn-primary btn-sm">{{ __('Start Recording') }}</button>
-                        <button type="button" id="stopAudio" class="btn btn-danger btn-sm" disabled>{{ __('Stop Recording') }}</button>
-
-                        <input type="hidden" name="audio" id="audioInput">
-                    </div>
                 </div>
 
-                <!-- Comment -->
-                <div class="mb-3 mt-3">
-                    <label for="comment" class="form-label">{{ __('Comment') }}</label>
-                    <textarea name="comment" id="comment" rows="3" class="form-control" required></textarea>
-                </div>
-
-                <!-- Upload Images -->
+                <!-- VIDEO RECORD -->
                 <div class="mb-3">
-                    <label class="form-label">{{ __('Upload Images (Max 3)') }}</label>
-                    <input type="file" name="images[]" class="form-control mb-2" multiple accept="image/*">
+                    <label class="section-label">{{ __('Record Video') }}</label>
+                    <video id="videoPreview" class="w-100 rounded border" height="220" autoplay muted></video>
+                    <div class="mt-2">
+                        <button type="button" id="startVideo" class="btn btn-outline-secondary rec-btn">🎥 Start</button>
+                        <button type="button" id="stopVideo" class="btn btn-outline-danger rec-btn" disabled>⛔ Stop</button>
+                    </div>
+                    <input type="hidden" name="video" id="videoInput">
+                </div>
+
+                <!-- AUDIO RECORD -->
+                <div class="mb-3">
+                    <label class="section-label">{{ __('Record Audio') }}</label>
+                    <div id="audioPreview" class="mb-2"></div>
+                    <button type="button" id="startAudio" class="btn btn-outline-secondary rec-btn">🎤 Start</button>
+                    <button type="button" id="stopAudio" class="btn btn-outline-danger rec-btn" disabled>⛔ Stop</button>
+                    <input type="hidden" name="audio" id="audioInput">
+                </div>
+
+                <!-- COMMENT -->
+                <div class="mb-3">
+                    <label class="section-label">{{ __('Comment') }}</label>
+                    <textarea name="comment" class="form-control" rows="4" required></textarea>
+                </div>
+
+                <!-- IMAGE UPLOAD -->
+                <div class="mb-4">
+                    <label class="section-label">{{ __('Upload Images (Max 3)') }}</label>
+                    <input type="file" name="images[]" class="form-control" multiple accept="image/*">
                     <small class="text-muted">{{ __('You can upload up to 3 images.') }}</small>
                 </div>
 
-                <div class="text-end">
-                    <button type="submit" class="btn btn-success px-4">{{ __('Submit') }}</button>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-brand px-5">
+                        {{ __('Submit') }}
+                    </button>
                 </div>
+
             </form>
         </div>
     </div>
@@ -116,87 +189,56 @@ let videoStream, audioStream;
 let videoRecorder, audioRecorder;
 let videoChunks = [], audioChunks = [];
 
-/* -------------------------
-   VIDEO RECORDING
--------------------------- */
+/* VIDEO */
 document.getElementById('startVideo').onclick = async function() {
-    try {
-        videoStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        document.getElementById('videoPreview').srcObject = videoStream;
-
-        videoRecorder = new MediaRecorder(videoStream);
-        videoChunks = [];
-
-        videoRecorder.ondataavailable = e => videoChunks.push(e.data);
-
-        videoRecorder.onstop = () => {
-            const blob = new Blob(videoChunks, { type: 'video/webm' });
-            const reader = new FileReader();
-            reader.readAsDataURL(blob);
-            reader.onloadend = () => {
-                document.getElementById('videoInput').value = reader.result;
-            };
-        };
-
-        videoRecorder.start();
-        this.disabled = true;
-        document.getElementById('stopVideo').disabled = false;
-
-    } catch (err) {
-        alert("Unable to access camera/microphone. Please check your browser permissions.");
-    }
+    videoStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    document.getElementById('videoPreview').srcObject = videoStream;
+    videoRecorder = new MediaRecorder(videoStream);
+    videoChunks = [];
+    videoRecorder.ondataavailable = e => videoChunks.push(e.data);
+    videoRecorder.onstop = () => {
+        const blob = new Blob(videoChunks, { type: 'video/webm' });
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = () => document.getElementById('videoInput').value = reader.result;
+    };
+    videoRecorder.start();
+    this.disabled = true;
+    document.getElementById('stopVideo').disabled = false;
 };
 
 document.getElementById('stopVideo').onclick = function() {
     videoRecorder.stop();
     videoStream.getTracks().forEach(track => track.stop());
-
     this.disabled = true;
     document.getElementById('startVideo').disabled = false;
 };
 
-/* -------------------------
-   AUDIO RECORDING
--------------------------- */
+/* AUDIO */
 document.getElementById('startAudio').onclick = async function() {
-    try {
-        audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-
-        audioRecorder = new MediaRecorder(audioStream);
-        audioChunks = [];
-
-        audioRecorder.ondataavailable = e => audioChunks.push(e.data);
-
-        audioRecorder.onstop = () => {
-            const blob = new Blob(audioChunks, { type: 'audio/webm' });
-
-            const reader = new FileReader();
-            reader.readAsDataURL(blob);
-            reader.onloadend = () => {
-                document.getElementById('audioInput').value = reader.result;
-            };
-
-            const audioElem = document.createElement('audio');
-            audioElem.controls = true;
-            audioElem.src = URL.createObjectURL(blob);
-
-            document.getElementById('audioPreview').innerHTML = '';
-            document.getElementById('audioPreview').appendChild(audioElem);
-        };
-
-        audioRecorder.start();
-        this.disabled = true;
-        document.getElementById('stopAudio').disabled = false;
-
-    } catch (err) {
-        alert("Unable to access microphone. Please check your browser settings.");
-    }
+    audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    audioRecorder = new MediaRecorder(audioStream);
+    audioChunks = [];
+    audioRecorder.ondataavailable = e => audioChunks.push(e.data);
+    audioRecorder.onstop = () => {
+        const blob = new Blob(audioChunks, { type: 'audio/webm' });
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = () => document.getElementById('audioInput').value = reader.result;
+        const audioElem = document.createElement('audio');
+        audioElem.controls = true;
+        audioElem.src = URL.createObjectURL(blob);
+        document.getElementById('audioPreview').innerHTML = '';
+        document.getElementById('audioPreview').appendChild(audioElem);
+    };
+    audioRecorder.start();
+    this.disabled = true;
+    document.getElementById('stopAudio').disabled = false;
 };
 
 document.getElementById('stopAudio').onclick = function() {
     audioRecorder.stop();
     audioStream.getTracks().forEach(track => track.stop());
-
     this.disabled = true;
     document.getElementById('startAudio').disabled = false;
 };
