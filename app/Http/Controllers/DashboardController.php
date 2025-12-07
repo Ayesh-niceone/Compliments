@@ -19,7 +19,7 @@ class DashboardController extends Controller
             ->with('department')
             ->get()
             ->map(fn($row) => [
-                'label' => $row->department->name ?? 'Unknown',
+                'label' => $row->department->name_lang ?? 'Unknown',
                 'value' => $row->total
             ]);
 
@@ -29,7 +29,7 @@ class DashboardController extends Controller
             ->with('completion_type')
             ->get()
             ->map(fn($row) => [
-                'label' => $row->completion_type->name ?? 'Unknown',
+                'label' => $row->completion_type->name_lang ?? 'Unknown',
                 'value' => $row->total
             ]);
 

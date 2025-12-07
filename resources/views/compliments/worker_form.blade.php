@@ -143,7 +143,7 @@
                             <select name="completion_type_id" class="form-select" required>
                                 <option value="">{{ __('Select Type') }}</option>
                                 @foreach ($completionTypes as $type)
-                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                    <option value="{{ $type->id }}">{{ $type->name_lang }}</option>
                                 @endforeach
                             </select>
                         </div>

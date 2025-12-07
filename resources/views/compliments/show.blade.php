@@ -19,10 +19,10 @@
 
             <p><strong>{{ __('Created At') }}:</strong> {{ $compliment->created_at?->format('Y-m-d H:i') ?? '-' }}</p>
             <p><strong>{{ __('Closed At') }}:</strong> {{ $compliment->closed_at?->format('Y-m-d H:i') ?? '-' }}</p>
-            <p><strong>{{ __('Department') }}:</strong> {{ $compliment->department->name ?? '-' }}</p>
+            <p><strong>{{ __('Department') }}:</strong> {{ $compliment->department->name_lang ?? '-' }}</p>
             <p><strong>{{ __('Care User') }}:</strong> {{ $compliment->careUser->name ?? '-' }}</p>
-            <p><strong>{{ __('Status') }}:</strong> {{ $compliment->status->name ?? '-' }}</p>
-            <p><strong>{{ __('Completion Type') }}:</strong> {{ $compliment->completion_type->name ?? '-' }}</p>
+            <p><strong>{{ __('Status') }}:</strong> {{ $compliment->status->name_lang ?? '-' }}</p>
+            <p><strong>{{ __('Completion Type') }}:</strong> {{ $compliment->completion_type->name_lang ?? '-' }}</p>
             <p><strong>{{ __('Target Type') }}:</strong> {{ $compliment->target_type ?? '-' }}</p>
             <p><strong>{{ __('Worker') }}:</strong> {{ $compliment->worker->name ?? '-' }}</p>
         </div>

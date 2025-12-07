@@ -7,7 +7,7 @@
             <select id="filterDepartment" class="form-select select2" multiple>
                 <option value="">{{ __('All Departments') }}</option>
                 @foreach ($departments as $d)
-                    <option value="{{ $d->id }}">{{ $d->name }}</option>
+                    <option value="{{ $d->id }}">{{ $d->name_lang }}</option>
                 @endforeach
             </select>
         </div>
@@ -18,7 +18,7 @@
             <select id="filterCompletionType" class="form-select select2" multiple>
                 <option value="">{{ __('All Completion Types') }}</option>
                 @foreach ($completionTypes as $ct)
-                    <option value="{{ $ct->id }}">{{ $ct->name }}</option>
+                    <option value="{{ $ct->id }}">{{ $ct->name_lang }}</option>
                 @endforeach
             </select>
         </div>
@@ -28,7 +28,7 @@
             <select id="filterStatus" class="form-select select2" multiple>
                 <option value="">{{ __('All Statuses') }}</option>
                 @foreach ($statuses as $s)
-                    <option value="{{ $s->id }}">{{ $s->name }}</option>
+                    <option value="{{ $s->id }}">{{ $s->name_lang }}</option>
                 @endforeach
             </select>
         </div>

@@ -34,13 +34,13 @@
             <tr>
                 <td>{{ $c->id }}</td>
                 <td>{{ $c->customer_name }}</td>
-                <td>{{ $c->department->name ?? '-' }}</td>
+                <td>{{ $c->department->name_lang ?? '-' }}</td>
                 <td>{{ $c->phone }}</td>
                 <td>{{ $c->plate_number }}</td>
                 <td>{{ $c->created_at->format('Y-m-d H:i') }}</td>
-                <td>{{ $c->completion_type->name ?? '-' }}</td>
+                <td>{{ $c->completion_type->name_lang ?? '-' }}</td>
                 <td>{{ $c->careUser->name ?? '-' }}</td>
-                <td>{{ $c->status->name ?? '-' }}</td>
+                <td>{{ $c->status->name_lang ?? '-' }}</td>
             </tr>
         @endforeach
     </tbody>
