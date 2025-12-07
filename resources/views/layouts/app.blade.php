@@ -9,12 +9,16 @@
 
     <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/favicon.png') }}" />
 
-    <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}" />
+    @if(app()->getLocale() == 'ar')
+        <link rel="stylesheet" href="{{ asset('assets/css/styles-rtl.min.css') }}" />
+    @else
+        <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}" />
+    @endif
     <link href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
-<body>
+<body dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
         <!-- Sidebar Start -->

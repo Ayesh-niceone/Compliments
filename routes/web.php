@@ -99,3 +99,19 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 Route::post('/notifications/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+
+Route::middleware('web')->get('/debug-locale', function () {
+    return response()->json([
+        'app_locale' => app()->getLocale(),
+        'session_locale' => session('locale'),
+        'session_id' => session()->getId(),
+    ]);
+});
+
+Route::middleware('web')->group(function () {
+    Route::get('change-language/{lang}', function ($lang) {
+        if (!in_array($lang, ['en','ar'])) abort(404);
+        session(['locale' => $lang]);
+        return redirect()->back();
+    })->name('change.language');
+});

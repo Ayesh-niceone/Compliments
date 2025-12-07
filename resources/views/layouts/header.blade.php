@@ -36,6 +36,30 @@
                     <li><a href="{{ route('notifications.index') }}" class="dropdown-item text-center">View All</a></li>
                 </ul>
             </li>
+            <li class="nav-item dropdown me-3">
+                <a class="nav-link dropdown-toggle nav-icon-hover" href="javascript:void(0)"
+                id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="ti ti-language"></i>
+                    <span class="ms-1 fw-bold">
+                        {{ app()->getLocale() == 'ar' ? 'العربية' : 'English' }}
+                    </span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
+                    @if(app()->getLocale() == 'ar')
+                        <li>
+                            <a class="dropdown-item text-center fw-bold" href="{{ url('change-language/en') }}">
+                                🇬🇧 English
+                            </a>
+                        </li>
+                    @else
+                        <li>
+                            <a class="dropdown-item text-center fw-bold" href="{{ url('change-language/ar') }}">
+                                🇸🇦 العربية
+                            </a>
+                        </li>
+                    @endif
+                </ul>
+            </li>
               <li class="nav-item dropdown">
                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
                   aria-expanded="false">

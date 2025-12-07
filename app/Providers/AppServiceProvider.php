@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +20,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Force locale from session on every request
+        $locale = session('locale', config('app.locale'));
+        App::setLocale($locale);
+
+        // Optional: Force Carbon locale
+        \Carbon\Carbon::setLocale($locale);
     }
 }
