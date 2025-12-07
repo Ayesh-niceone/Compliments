@@ -24,11 +24,40 @@ class StatusController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate(['name' => 'required|string|max:255']);
-        Status::create($request->all());
+        $request->validate([
+            'name.name_en' => 'required|string|max:255',
+            'name.name_ar' => 'required|string|max:255',
+        ]);
+
+        Status::create([
+            'name' => [
+                'name_en' => $request->name['name_en'],
+                'name_ar' => $request->name['name_ar'],
+            ]
+        ]);
+
         return response()->json(['success' => true]);
     }
 
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name.name_en' => 'required|string|max:255',
+            'name.name_ar' => 'required|string|max:255',
+        ]);
+
+        $status = Status::findOrFail($id);
+
+        $status->update([
+            'name' => [
+                'name_en' => $request->name['name_en'],
+                'name_ar' => $request->name['name_ar'],
+            ]
+        ]);
+
+        return response()->json(['success' => true]);
+    }
     public function destroy($id)
     {
         $status = Status::findOrFail($id);

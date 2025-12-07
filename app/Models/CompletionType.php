@@ -14,9 +14,16 @@ class CompletionType extends Loggable
 
     protected $fillable = ['name', 'type'];
 
+    protected $casts = [
+        'name' => 'array',
+    ];
 
     public function compliments()
     {
         return $this->hasMany(\App\Models\Compliment::class);
+    }
+    public function getNameLangAttribute()
+    {
+        return $this->name[app()->getLocale() === 'ar' ? 'name_ar' : 'name_en'] ?? null;
     }
 }

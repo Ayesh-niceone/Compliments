@@ -24,19 +24,42 @@ class DepartmentController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate(['name' => 'required|string|max:255']);
-        Department::create($request->all());
+        $request->validate([
+            'name.name_en' => 'required|string|max:255',
+            'name.name_ar' => 'required|string|max:255',
+            'code' => 'required|string|max:50',
+        ]);
+
+        Department::create([
+            'name' => [
+                'name_en' => $request->name['name_en'],
+                'name_ar' => $request->name['name_ar'],
+            ],
+            'code' => $request->code,
+        ]);
+
         return response()->json(['success' => true]);
     }
 
-    public function update(Request $request, Department $department)
+
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'code' => 'required|string|max:50|unique:departments,code,' . $department->id,
+            'name.name_en' => 'required|string|max:255',
+            'name.name_ar' => 'required|string|max:255',
+            'code' => 'required|string|max:50',
         ]);
 
-        $department->update($request->only('name', 'code'));
+        $department = Department::findOrFail($id);
+
+        $department->update([
+            'name' => [
+                'name_en' => $request->name['name_en'],
+                'name_ar' => $request->name['name_ar'],
+            ],
+            'code' => $request->code,
+        ]);
+
         return response()->json(['success' => true]);
     }
 

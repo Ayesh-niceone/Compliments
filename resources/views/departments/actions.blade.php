@@ -1,7 +1,7 @@
 <div class="btn-group" role="group">
     @can('edit departments')
     <button class="btn btn-sm btn-warning"
-        onclick="editDepartment({{ $row->id }}, '{{ $row->name }}', '{{ $row->code }}')">{{ __('Edit') }}</button>
+        onclick="editDepartment({{ $row->id }}, '{{ $row->name['name_en'] }}', '{{ $row->name['name_ar'] }}', '{{ $row->code }}')">{{ __('Edit') }}</button>
     @endcan
     @can('delete departments')
     <button class="btn btn-sm btn-danger" onclick="deleteDepartment({{ $row->id }})">{{ __('Delete') }}</button>

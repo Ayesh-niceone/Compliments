@@ -25,25 +25,41 @@ class CompletionTypeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name.name_en' => 'required|string|max:255',
+            'name.name_ar' => 'required|string|max:255',
             'type' => 'required|in:worker,customer',
         ]);
 
-        CompletionType::create($request->all());
+        CompletionType::create([
+            'name' => [
+                'name_en' => $request->name['name_en'],
+                'name_ar' => $request->name['name_ar'],
+            ],
+            'type' => $request->type,
+        ]);
 
         return response()->json(['success' => true]);
     }
 
-    public function update(Request $request, CompletionType $completionType)
+
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name.name_en' => 'required|string|max:255',
+            'name.name_ar' => 'required|string|max:255',
             'type' => 'required|in:worker,customer',
         ]);
 
-        CompletionType::create($request->all());
+        $completionType = CompletionType::findOrFail($id);
 
-        $completionType->update(['name' => $request->name]);
+        $completionType->update([
+            'name' => [
+                'name_en' => $request->name['name_en'],
+                'name_ar' => $request->name['name_ar'],
+            ],
+            'type' => $request->type,
+        ]);
+
         return response()->json(['success' => true]);
     }
     public function destroy($id)
