@@ -48,14 +48,14 @@ class ComplimentController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('customer_name', fn($row) => $row->customer_name ?? '-')
-                ->addColumn('department', fn($row) => $row->department->name ?? '-')
+                ->addColumn('department', fn($row) => $row->department->name_lang ?? '-')
                 ->addColumn('code', fn($row) => $row->department->code ?? '-')
                 ->addColumn('phone', fn($row) => $row->phone ?? '-')
                 ->addColumn('plate_number', fn($row) => $row->plate_number ?? '-')
                 ->addColumn('created_at', fn($row) => $row->created_at->format('Y-m-d H:i') ?? '-')
-                ->addColumn('completion_type', fn($row) => $row->completion_type->name ?? '-')
+                ->addColumn('completion_type', fn($row) => $row->completion_type->name_lang ?? '-')
                 ->addColumn('care_user', fn($row) => $row->careUser->name ?? '-')
-                ->addColumn('status', fn($row) => $row->status->name ?? '-')
+                ->addColumn('status', fn($row) => $row->status->name_lang ?? '-')
                 ->addColumn('action', function ($row) {
                     return view('compliments.actions', compact('row'))->render();
                 })
