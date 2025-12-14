@@ -144,5 +144,15 @@
     "Record Audio":"تسجيل صوت",
     "Record Video":"تسجيل فيديو",
     "Start Recording":"بدء التسجيل",
-    "Stop":"توقف"
+    "Stop":"توقف",
+    "Brands":"العلامات التجارية",
+    "Brand Name":"اسم العلامة التجارية",
+    "Add Brand":"إضافة علامة تجارية",
+    "Create Brand":"إنشاء علامة تجارية",
+    "Edit Brand":"تعديل العلامة التجارية",
+    "Brand created successfully.": "تم إنشاء العلامة التجارية بنجاح.",
+    "Brand updated successfully.": "تم تحديث العلامة التجارية بنجاح.",
+    "Brand deleted successfully.": "تم حذف العلامة التجارية بنجاح.",
+    "Name(English)": "الاسم (بالإنجليزية)",
+    "Name(Arabic)": "الاسم (بالعربية)",
 }
