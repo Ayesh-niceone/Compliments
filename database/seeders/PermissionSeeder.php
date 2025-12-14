@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\User;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class PermissionSeeder extends Seeder
 {
@@ -12,7 +14,7 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        // List of all your modules / controllers
+        // Modules / resources
         $modules = [
             'completion_types',
             'compliments',
@@ -26,31 +28,67 @@ class PermissionSeeder extends Seeder
             'brands',
         ];
 
-        // Common CRUD actions
+        // CRUD actions
         $actions = ['view', 'create', 'edit', 'delete'];
 
+        $permissions = [];
+
+        // Create CRUD permissions
         foreach ($modules as $module) {
             foreach ($actions as $action) {
-                $permissionName = "{$action} {$module}";
-                Permission::firstOrCreate(
-                    ['name' => $permissionName],
-                    ['guard_name' => 'web']
+                $permissions[] = Permission::firstOrCreate(
+                    [
+                        'name' => "{$action} {$module}",
+                        'guard_name' => 'web',
+                    ]
                 );
             }
         }
 
-        // Optionally add any special permissions
+        // Extra permissions
         $specialPermissions = [
             'assign roles',
             'manage permissions',
             'view dashboard',
-            'view logs'
+            'view logs',
         ];
 
         foreach ($specialPermissions as $perm) {
-            Permission::firstOrCreate(['name' => $perm], ['guard_name' => 'web']);
+            $permissions[] = Permission::firstOrCreate(
+                [
+                    'name' => $perm,
+                    'guard_name' => 'web',
+                ]
+            );
         }
 
-        $this->command->info('✅ Permissions seeded successfully!');
+        /**
+         * ==============================
+         * Create Super Admin Role
+         * ==============================
+         */
+        $superAdminRole = Role::firstOrCreate(
+            [
+                'name' => 'super-admin',
+                'guard_name' => 'web',
+            ]
+        );
+
+        // Give role all permissions
+        $superAdminRole->syncPermissions(Permission::all());
+
+        /**
+         * ==============================
+         * Assign ALL permissions to FIRST USER
+         * ==============================
+         */
+        $firstUser = User::first(); // or User::find(1)
+
+        if ($firstUser) {
+            $firstUser->assignRole($superAdminRole);
+            $firstUser->syncPermissions(Permission::all());
+        }
+
+        $this->command->info('✅ Permissions seeded & first user granted full access!');
     }
 }
