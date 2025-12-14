@@ -52,7 +52,7 @@
                     <select name="department_id" class="form-control" required>
                         <option value="">{{ __('Select Department') }}</option>
                         @foreach($departments as $department)
-                            <option value="{{ $department->id }}">{{ $department->name }}</option>
+                            <option value="{{ $department->id }}">{{ $department->name_lang }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -89,7 +89,7 @@
                     <label class="form-label">{{ __('Department') }}</label>
                     <select id="edit_department_id" name="department_id" class="form-control" required>
                         @foreach($departments as $department)
-                            <option value="{{ $department->id }}">{{ $department->name }}</option>
+                            <option value="{{ $department->id }}">{{ $department->name_lang }}</option>
                         @endforeach
                     </select>
                 </div>
