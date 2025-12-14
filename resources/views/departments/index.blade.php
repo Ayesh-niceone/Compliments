@@ -134,14 +134,7 @@ $(function() {
                     return data['{{ app()->getLocale() === 'ar' ? 'name_ar' : 'name_en' }}'];
                 }
             },
-
-            { data: 'brand.name',
-                render: function (data) {
-                    if (!data.brand) return '-';
-
-                    return data.brand['{{ app()->getLocale() === 'ar' ? 'name_ar' : 'name_en' }}'];
-                }
-            },
+            { data: 'brand', name: 'brand' },
             { data: 'code', name: 'code' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ]

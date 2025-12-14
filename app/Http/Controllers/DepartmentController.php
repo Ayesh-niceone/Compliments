@@ -17,6 +17,7 @@ class DepartmentController extends Controller
             $data = Department::query();
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->addColumn('brand', fn($row) => $row->brand->name_lang ?? '-')
                 ->addColumn('action', fn($row) => view('departments.actions', compact('row'))->render())
                 ->rawColumns(['action'])
                 ->make(true);

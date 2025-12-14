@@ -15,7 +15,7 @@ class WorkerController extends Controller
             $workers = Worker::with('department')->select('workers.*');
             return DataTables::of($workers)
                 ->addIndexColumn()
-                ->addColumn('department', fn($row) => $row->department?->name ?? '-')
+                ->addColumn('department', fn($row) => $row->department->name_lang ?? '-')
 
                 ->addColumn('action', function ($row) {
                     $buttons = '';
