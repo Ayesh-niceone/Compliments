@@ -17,6 +17,7 @@
                     <tr>
                         <th>#</th>
                         <th>{{ __('Name') }}</th>
+                        <th>{{ __('Brand') }}</th>
                         <th>{{ __('Code') }}</th>
                         <th>{{ __('Action') }}</th>
                     </tr>
@@ -45,7 +46,13 @@
 
                     <label class="form-label">{{ __('Department Name (Arabic)') }}</label>
                     <input type="text" name="name_ar" class="form-control mb-2" required>
-
+                    <label class="form-label">{{ __('Brand') }}</label>
+                    <select name="brand_id" class="form-control" required>
+                        <option value="">{{ __('Select Brand') }}</option>
+                        @foreach($brands as $brand)
+                            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                        @endforeach
+                    </select>
                     <label class="form-label">{{ __('Department Code') }}</label>
                     <input type="text" name="code" class="form-control" required>
 
@@ -84,7 +91,12 @@
 
                     <label class="form-label">{{ __('Department Name (Arabic)') }}</label>
                     <input type="text" id="edit_name_ar" name="name_ar" class="form-control mb-2" required>
-
+                    <label class="form-label">{{ __('Brand') }}</label>
+                    <select id="edit_brand_id" name="brand_id" class="form-control" required>
+                        @foreach($brands as $brand)
+                            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                        @endforeach
+                    </select>
                     <label class="form-label">{{ __('Department Code') }}</label>
                     <input type="text" id="edit_code" name="code" class="form-control" required>
 
@@ -123,8 +135,14 @@ $(function() {
                 }
             },
 
-            { data: 'code', name: 'code' },
+            { data: 'brand.name',
+                render: function (data) {
+                    if (!data.brand) return '-';
 
+                    return data.brand['{{ app()->getLocale() === 'ar' ? 'name_ar' : 'name_en' }}'];
+                }
+            },
+            { data: 'code', name: 'code' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ]
     });
@@ -162,6 +180,7 @@ function editDepartment(id, name_en, name_ar, code) {
     $('#edit_name_en').val(name_en);
     $('#edit_name_ar').val(name_ar);
     $('#edit_code').val(code);
+    $('#edit_brand_id').val(brand_id);
     $('#editDepartmentModal').modal('show');
 }
 

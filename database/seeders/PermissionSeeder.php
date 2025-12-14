@@ -23,6 +23,7 @@ class PermissionSeeder extends Seeder
             'users',
             'workers',
             'roles',
+            'brands',
         ];
 
         // Common CRUD actions

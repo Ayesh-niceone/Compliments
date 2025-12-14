@@ -3,28 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
-use App\Models\Department;
 use Illuminate\Http\Request;
-use Mpdf\Tag\B;
-use Mpdf\Tag\Br;
 use Yajra\DataTables\Facades\DataTables;
 
-class DepartmentController extends Controller
+class BrandController extends Controller
 {
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Department::query();
+            $data = Brand::query();
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('action', fn($row) => view('departments.actions', compact('row'))->render())
+                ->addColumn('action', fn($row) => view('completion_types.actions', compact('row'))->render())
                 ->rawColumns(['action'])
                 ->make(true);
         }
 
-        $brands = Brand::all();
-
-        return view('departments.index', compact('brands'));
+        return view('brands.index');
     }
 
     public function store(Request $request)
@@ -32,17 +27,13 @@ class DepartmentController extends Controller
         $request->validate([
             'name.name_en' => 'required|string|max:255',
             'name.name_ar' => 'required|string|max:255',
-            'code' => 'required|string|max:50',
-            'brand_id' => 'required|exists:brands,id'
         ]);
 
-        Department::create([
+        Brand::create([
             'name' => [
                 'name_en' => $request->name['name_en'],
                 'name_ar' => $request->name['name_ar'],
             ],
-            'code' => $request->code,
-            'brand_id' => $request->brand_id,
         ]);
 
         return response()->json(['success' => true]);
@@ -54,28 +45,23 @@ class DepartmentController extends Controller
         $request->validate([
             'name.name_en' => 'required|string|max:255',
             'name.name_ar' => 'required|string|max:255',
-            'code' => 'required|string|max:50',
-            'brand_id' => 'required|exists:brands,id'
         ]);
 
-        $department = Department::findOrFail($id);
+        $brand = Brand::findOrFail($id);
 
-        $department->update([
+        $brand->update([
             'name' => [
                 'name_en' => $request->name['name_en'],
                 'name_ar' => $request->name['name_ar'],
             ],
-            'code' => $request->code,
-            'brand_id' => $request->brand_id,
         ]);
 
         return response()->json(['success' => true]);
     }
-
     public function destroy($id)
     {
-        $department = Department::findOrFail($id);
-        $department->delete();
+        $completion_type = Brand::findOrFail($id);
+        $completion_type->delete();
         return response()->json(['success' => true]);
     }
 }

@@ -7,27 +7,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Department extends Loggable
+class Brand extends Loggable
 {
     use HasFactory;
 
 
-    protected $fillable = ['name', 'code', 'brand_id'];
+    protected $fillable = ['name'];
+
     protected $casts = [
         'name' => 'array',
     ];
 
-    public function compliments()
-    {
-        return $this->hasMany(\App\Models\Compliment::class);
-    }
-
     public function getNameLangAttribute()
     {
         return $this->name[app()->getLocale() === 'ar' ? 'name_ar' : 'name_en'] ?? null;
-    }
-    public function brand()
-    {
-        return $this->belongsTo(Brand::class);
     }
 }
