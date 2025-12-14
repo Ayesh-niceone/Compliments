@@ -50,7 +50,7 @@
                     <select name="brand_id" class="form-control" required>
                         <option value="">{{ __('Select Brand') }}</option>
                         @foreach($brands as $brand)
-                            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                            <option value="{{ $brand->id }}">{{ $brand->name_lang }}</option>
                         @endforeach
                     </select>
                     <label class="form-label">{{ __('Department Code') }}</label>
@@ -94,7 +94,7 @@
                     <label class="form-label">{{ __('Brand') }}</label>
                     <select id="edit_brand_id" name="brand_id" class="form-control" required>
                         @foreach($brands as $brand)
-                            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                            <option value="{{ $brand->id }}">{{ $brand->name_lang }}</option>
                         @endforeach
                     </select>
                     <label class="form-label">{{ __('Department Code') }}</label>
