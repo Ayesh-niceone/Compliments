@@ -14,7 +14,7 @@ class BrandController extends Controller
             $data = Brand::query();
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('action', fn($row) => view('completion_types.actions', compact('row'))->render())
+                ->addColumn('action', fn($row) => view('brands.actions', compact('row'))->render())
                 ->rawColumns(['action'])
                 ->make(true);
         }
