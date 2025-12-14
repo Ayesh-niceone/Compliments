@@ -12,7 +12,7 @@
             @endcan
 
             <div class="table-responsive">
-                <table class="table text-nowrap mb-0 align-middle" id="completion_types-table">
+                <table class="table text-nowrap mb-0 align-middle" id="brands-table">
                     <thead class="text-dark fs-4">
                         <tr>
                             <th>#</th>
