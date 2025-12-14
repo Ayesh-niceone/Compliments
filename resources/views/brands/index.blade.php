@@ -17,7 +17,6 @@
                         <tr>
                             <th>#</th>
                             <th>{{ __('Name') }}</th>
-                            <th>{{ __('Type') }}</th>
                             <th>{{ __('Action') }}</th>
                         </tr>
                     </thead>
@@ -104,10 +103,7 @@ $(function () {
         serverSide: true,
         ajax: "{{ route('brands.index') }}",
         columns: [
-            { data: 'id', name: 'id' },
-
-            // ✅ SHOW NAME BASED ON LOCALE
-            {
+            { data: 'id', name: 'id' },            {
                 data: 'name',
                 render: function (data) {
                     if (!data) return '-';
