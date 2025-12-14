@@ -153,7 +153,8 @@ function storeDepartment() {
                 name_en: $('input[name="name_en"]').val(),
                 name_ar: $('input[name="name_ar"]').val()
             },
-            code: $('input[name="code"]').val()
+            code: $('input[name="code"]').val(),
+            brand_id: $('select[name="brand_id"]').val()
         },
         success: function() {
             $('#createDepartmentModal').modal('hide');
@@ -192,7 +193,8 @@ function updateDepartment() {
                 name_en: $('#edit_name_en').val(),
                 name_ar: $('#edit_name_ar').val()
             },
-            code: $('#edit_code').val()
+            code: $('#edit_code').val(),
+            brand_id: $('#edit_brand_id').val()
         },
         success: function() {
             $('#editDepartmentModal').modal('hide');
