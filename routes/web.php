@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\{
+    BrandController,
     CompletionTypeController,
     ComplimentController,
     DepartmentController,
@@ -46,6 +47,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Resources
     Route::resource('compliments', ComplimentController::class);
     Route::resource('departments', DepartmentController::class);
+    Route::resource('brands', BrandController::class);
     Route::resource('statuses', StatusController::class);
     Route::resource('completion_types', CompletionTypeController::class);
     Route::resource('users', UserController::class);
