@@ -38,6 +38,15 @@
                     </li>
                 @endcanany
 
+                {{-- Brands --}}
+                @canany(['view brands', 'create brands', 'edit brands', 'delete brands'])
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('brands.index') }}" aria-expanded="false">
+                            <span><i class="ti ti-pin"></i></span>
+                            <span class="hide-menu">{{ __('Brands') }}</span>
+                        </a>
+                    </li>
+                @endcanany
                 {{-- Departments --}}
                 @canany(['view departments', 'create departments', 'edit departments', 'delete departments'])
                     <li class="sidebar-item">
