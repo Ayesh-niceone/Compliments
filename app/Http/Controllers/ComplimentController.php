@@ -389,4 +389,11 @@ class ComplimentController extends Controller
             echo $mpdf->Output('', 'S'); // Send to browser
         }, 'compliments.pdf');
     }
+
+    public function destroy($id)
+    {
+        $compliment = Compliment::findOrFail($id);
+        $compliment->delete();
+        return redirect()->back()->with('success', 'Compliment Deleted successfully!');
+    }
 }
