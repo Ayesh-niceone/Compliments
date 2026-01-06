@@ -261,14 +261,25 @@ let videoTimer, videoSeconds = 0;
 startVideo.onclick = async () => {
     try {
         videoStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+
+        // ✅ SHOW LIVE CAMERA PREVIEW
+        videoPreview.srcObject = videoStream;
+        videoPreview.muted = true;
+        videoPreview.classList.remove('d-none');
+        videoPreview.play();
+
         videoRecorder = new MediaRecorder(videoStream);
         videoChunks = [];
 
         videoRecorder.ondataavailable = e => videoChunks.push(e.data);
+
         videoRecorder.onstop = () => {
             const blob = new Blob(videoChunks, { type: 'video/webm' });
+
+            // ✅ SHOW RECORDED VIDEO AFTER STOP
+            videoPreview.srcObject = null;
             videoPreview.src = URL.createObjectURL(blob);
-            videoPreview.classList.remove('d-none');
+            videoPreview.muted = false;
 
             const file = new File([blob], 'recorded_video.webm', { type: 'video/webm' });
             const dt = new DataTransfer();
@@ -277,6 +288,7 @@ startVideo.onclick = async () => {
         };
 
         videoRecorder.start();
+
         videoSeconds = 0;
         videoStatus.innerText = '🔴 Recording... 0s';
 
@@ -288,10 +300,11 @@ startVideo.onclick = async () => {
         startVideo.disabled = true;
         stopVideo.disabled = false;
 
-    } catch {
+    } catch (e) {
         alert('Camera access denied');
     }
 };
+
 
 stopVideo.onclick = () => {
     videoRecorder.stop();
