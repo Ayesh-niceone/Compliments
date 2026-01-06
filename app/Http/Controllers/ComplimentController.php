@@ -217,7 +217,7 @@ class ComplimentController extends Controller
         /* ------------------------------------
         SEND NOTIFICATION TO ADMINS
     ------------------------------------ */
-        $users = User::whereIn('role', ['Admin'])->get();
+        $users = User::whereIn('role', ['Admin','Supervisor','Customer Care'])->get();
 
         Notification::send($users, new SystemNotification(
             'New customer compliment submitted!',
@@ -335,8 +335,7 @@ class ComplimentController extends Controller
         ]);
 
 
-        $users = User::whereIn('role', ['Admin'])->get();
-
+        $users = User::whereIn('role', ['Admin','Supervisor','Customer Care'])->get();
         Notification::send($users, new SystemNotification(
             'New worker compliment submitted!',
             ['type' => 'compliment', 'id' => Compliment::latest()->first()->id]
