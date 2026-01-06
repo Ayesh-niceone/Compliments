@@ -185,7 +185,7 @@
 
                     <button type="button" id="startVideo" class="btn btn-outline-secondary rec-btn">🎥 {{ __('Start Recode') }}</button>
                     <button type="button" id="stopVideo" class="btn btn-outline-danger rec-btn" disabled>⛔ {{ __('Stop') }}</button>
-                    <button type="button" id="switchCamera" class="btn btn-outline-primary rec-btn">🔄 {{ __('Switch Camera') }}</button>
+                    <button type="button" id="switchCamera" class="btn btn-outline-primary rec-btn mt-2">🔄 {{ __('Switch Camera') }}</button>
 
                     <div id="videoStatus" class="rec-status text-danger"></div>
 
