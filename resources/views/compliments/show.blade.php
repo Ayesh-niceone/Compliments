@@ -129,7 +129,7 @@
                         <option value="">-- {{ __('Select Status') }} --</option>
                         @foreach($statuses as $status)
                             <option value="{{ $status->id }}" {{ $compliment->status_id == $status->id ? 'selected' : '' }}>
-                                {{ $status->name }}
+                                {{ $status->name_lang }}
                             </option>
                         @endforeach
                     </select>
