@@ -154,7 +154,8 @@ class ComplimentController extends Controller
     public function createCustomer()
     {
         $completionTypes = CompletionType::where('type', 'customer')->get();
-        return view('compliments.customer_form', compact('completionTypes'));
+        $department = Department::find(request('department_id'));
+        return view('compliments.customer_form', compact('completionTypes', 'department'));
     }
 
     public function storeCustomer(Request $request)
@@ -233,8 +234,8 @@ class ComplimentController extends Controller
         $departmentId = $request->get('department_id');
         $workers = Worker::where('department_id', $departmentId)->get();
         $completionTypes = CompletionType::where('type', 'worker')->get();
-
-        return view('compliments.worker_form', compact('workers', 'completionTypes', 'departmentId'));
+        $department = Department::find($departmentId);
+        return view('compliments.worker_form', compact('workers', 'completionTypes', 'departmentId','department'));
     }
 
     public function storeWorker(Request $request)

@@ -126,6 +126,7 @@
                 <img src="{{ logo() }}" alt="Logo">
                 <div class="brand-title">{{ __('Customer Compliment Form') }}</div>
                 <div class="brand-subtitle">{{ __('We appreciate your feedback!') }}</div>
+                                <h3>{{$department->name_lang}}</h3>
             </div>
 
             <!-- FORM BODY -->
