@@ -6,14 +6,11 @@
     <title>{{ __('Submit a Compliment') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Brand Variables -->
     <style>
         :root {
             --brand-color: #4f46e5;
-            /* ✅ Change this for any brand */
             --brand-dark: #3730a3;
             --page-bg: #f4f6fb;
             --card-bg: #ffffff;
@@ -94,218 +91,219 @@
             margin-bottom: 6px;
         }
 
-        .success-box {
-            max-width: 720px;
-            margin: 20px auto;
+        .rec-status {
+            font-weight: bold;
+            margin-top: 5px;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="container py-5">
+<div class="container py-5">
 
-        @if (session('success'))
-            <div class="alert alert-success success-box text-center">
-                {{ session('success') }}
-            </div>
+    @if (session('success'))
+        <div class="alert alert-success text-center mb-4">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <div class="form-card">
+        @if (app()->getLocale() == 'ar')
+            <a class="dropdown-item text-center fw-bold" href="{{ url('change-language/en') }}">🇬🇧 English</a>
+        @else
+            <a class="dropdown-item text-center fw-bold" href="{{ url('change-language/ar') }}">🇸🇦 العربية</a>
         @endif
 
-        <div class="form-card">
-            @if (app()->getLocale() == 'ar')
-                <a class="dropdown-item text-center fw-bold" href="{{ url('change-language/en') }}">
-                    🇬🇧 English
-                </a>
-            @else
-                <a class="dropdown-item text-center fw-bold" href="{{ url('change-language/ar') }}">
-                    🇸🇦 العربية
-                </a>
-            @endif
-            <!-- BRAND HEADER -->
-            <div class="brand-header">
-                <img src="{{ logo() }}" alt="Logo">
-                <div class="brand-title">{{ __('Customer Compliment Form') }}</div>
-                <div class="brand-subtitle">{{ __('We appreciate your feedback!') }}</div>
-                                <h3>{{$department->name_lang}}</h3>
-            </div>
+        <div class="brand-header">
+            <img src="{{ logo() }}" alt="Logo">
+            <div class="brand-title">{{ __('Customer Compliment Form') }}</div>
+            <div class="brand-subtitle">{{ __('We appreciate your feedback!') }}</div>
+            <h3>{{ $department->name_lang }}</h3>
+        </div>
 
-            <!-- FORM BODY -->
-            <div class="card-body">
-                <form action="{{ route('compliments.storeCustomer') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <input type="hidden" name="department_id" value="{{ request()->get('department_id') }}">
+        <div class="card-body">
+            <form action="{{ route('compliments.storeCustomer') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="department_id" value="{{ request()->get('department_id') }}">
 
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-6">
-                            <label class="section-label">{{ __('Customer Name') }}</label>
-                            <input type="text" name="customer_name" class="form-control" required>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="section-label">{{ __('Phone Number') }}</label>
-                            <input type="text" name="phone" class="form-control" required>
-                        </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="section-label">{{ __('Customer Name') }}</label>
+                        <input type="text" name="customer_name" class="form-control" required>
                     </div>
 
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-6">
-                            <label class="section-label">{{ __('Completion Type') }}</label>
-                            <select name="completion_type_id" class="form-select" required>
-                                <option value="">{{ __('Select Type') }}</option>
-                                @foreach ($completionTypes as $type)
-                                    <option value="{{ $type->id }}">{{ $type->name_lang }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                    <div class="col-md-6">
+                        <label class="section-label">{{ __('Phone Number') }}</label>
+                        <input type="text" name="phone" class="form-control" required>
+                    </div>
+                </div>
 
-                        <div class="col-md-6">
-                            <label class="section-label">{{ __('Plate Number') }} ({{ __('optional') }})</label>
-                            <input type="text" name="plate_number" class="form-control">
-                        </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="section-label">{{ __('Completion Type') }}</label>
+                        <select name="completion_type_id" class="form-select" required>
+                            <option value="">{{ __('Select Type') }}</option>
+                            @foreach ($completionTypes as $type)
+                                <option value="{{ $type->id }}">{{ $type->name_lang }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="section-label">{{ __('Your Comment') }}</label>
-                        <textarea name="comment" class="form-control" rows="4" required></textarea>
+                    <div class="col-md-6">
+                        <label class="section-label">{{ __('Plate Number') }} ({{ __('optional') }})</label>
+                        <input type="text" name="plate_number" class="form-control">
                     </div>
+                </div>
 
-                    <!-- IMAGE UPLOAD -->
-                    <div class="mb-3">
-                        <label class="section-label">{{ __('Upload Images (3)') }}</label>
-                        <input type="file" name="images[]" class="form-control" multiple accept="image/*">
-                    </div>
+                <div class="mb-3">
+                    <label class="section-label">{{ __('Your Comment') }}</label>
+                    <textarea name="comment" class="form-control" rows="4" required></textarea>
+                </div>
 
-                    <!-- AUDIO RECORD -->
-                    <div class="mb-3">
-                        <label class="section-label">{{ __('Record Audio') }}</label><br>
-                        <button type="button" id="startAudio" class="btn btn-outline-secondary rec-btn">🎤
-                            {{ __('Start Recode') }}</button>
-                        <button type="button" id="stopAudio" class="btn btn-outline-danger rec-btn" disabled>⛔
-                            {{ __('Stop') }}</button>
-                        <audio id="audioPreview" controls class="mt-2 w-100 d-none"></audio>
-                        <input type="file" id="audioFile" name="audio" hidden>
-                    </div>
+                <div class="mb-3">
+                    <label class="section-label">{{ __('Upload Images (3)') }}</label>
+                    <input type="file" name="images[]" class="form-control" multiple accept="image/*">
+                </div>
 
-                    <!-- VIDEO RECORD -->
-                    <div class="mb-4">
-                        <label class="section-label">{{ __('Record Video') }}</label><br>
-                        <button type="button" id="startVideo" class="btn btn-outline-secondary rec-btn">🎥
-                            {{ __('Start Recode') }}</button>
-                        <button type="button" id="stopVideo" class="btn btn-outline-danger rec-btn" disabled>⛔
-                            {{ __('Stop') }}</button>
-                        <video id="videoPreview" controls class="mt-2 w-100 d-none"></video>
-                        <input type="file" id="videoFile" name="video" hidden>
-                    </div>
+                <!-- AUDIO RECORD -->
+                <div class="mb-3">
+                    <label class="section-label">{{ __('Record Audio') }}</label><br>
 
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-brand px-5">
-                            {{ __('Submit') }}
-                        </button>
-                    </div>
+                    <button type="button" id="startAudio" class="btn btn-outline-secondary rec-btn">🎤 {{ __('Start Recode') }}</button>
+                    <button type="button" id="stopAudio" class="btn btn-outline-danger rec-btn" disabled>⛔ {{ __('Stop') }}</button>
 
-                </form>
-            </div>
+                    <div id="audioStatus" class="rec-status text-danger"></div>
+
+                    <audio id="audioPreview" controls class="mt-2 w-100 d-none"></audio>
+                    <input type="file" id="audioFile" name="audio" hidden>
+                </div>
+
+                <!-- VIDEO RECORD -->
+                <div class="mb-4">
+                    <label class="section-label">{{ __('Record Video') }}</label><br>
+
+                    <button type="button" id="startVideo" class="btn btn-outline-secondary rec-btn">🎥 {{ __('Start Recode') }}</button>
+                    <button type="button" id="stopVideo" class="btn btn-outline-danger rec-btn" disabled>⛔ {{ __('Stop') }}</button>
+
+                    <div id="videoStatus" class="rec-status text-danger"></div>
+
+                    <video id="videoPreview" controls class="mt-2 w-100 d-none"></video>
+                    <input type="file" id="videoFile" name="video" hidden>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-brand px-5">
+                        {{ __('Submit') }}
+                    </button>
+                </div>
+
+            </form>
         </div>
     </div>
+</div>
 
+<script>
+/* ================= AUDIO ================= */
+let audioStream, audioRecorder, audioChunks = [];
+let audioTimer, audioSeconds = 0;
 
+startAudio.onclick = async () => {
+    try {
+        audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioRecorder = new MediaRecorder(audioStream);
+        audioChunks = [];
 
-    <script>
-        /* ===================== AUDIO RECORDING ===================== */
+        audioRecorder.ondataavailable = e => audioChunks.push(e.data);
+        audioRecorder.onstop = () => {
+            const blob = new Blob(audioChunks, { type: 'audio/webm' });
+            audioPreview.src = URL.createObjectURL(blob);
+            audioPreview.classList.remove('d-none');
 
-        let audioStream, audioRecorder, audioChunks = [];
-
-        document.getElementById('startAudio').onclick = async function() {
-            audioStream = await navigator.mediaDevices.getUserMedia({
-                audio: true
-            });
-            audioRecorder = new MediaRecorder(audioStream);
-
-            audioRecorder.start();
-            audioChunks = [];
-
-            audioRecorder.ondataavailable = e => audioChunks.push(e.data);
-
-            audioRecorder.onstop = () => {
-                const audioBlob = new Blob(audioChunks, {
-                    type: 'audio/mp3'
-                });
-                const audioUrl = URL.createObjectURL(audioBlob);
-
-                let audioPreview = document.getElementById('audioPreview');
-                audioPreview.src = audioUrl;
-                audioPreview.style.display = 'block';
-
-                // Convert blob to File and put inside input[file]
-                const audioFileInput = document.getElementById('audioFile');
-                const file = new File([audioBlob], "recorded_audio.mp3", {
-                    type: 'audio/mp3'
-                });
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(file);
-                audioFileInput.files = dataTransfer.files;
-            };
-
-            document.getElementById('startAudio').disabled = true;
-            document.getElementById('stopAudio').disabled = false;
+            const file = new File([blob], 'recorded_audio.webm', { type: 'audio/webm' });
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            audioFile.files = dt.files;
         };
 
-        document.getElementById('stopAudio').onclick = function() {
-            audioRecorder.stop();
-            audioStream.getTracks().forEach(t => t.stop());
+        audioRecorder.start();
+        audioSeconds = 0;
+        audioStatus.innerText = '🎤 Recording... 0s';
 
-            document.getElementById('startAudio').disabled = false;
-            document.getElementById('stopAudio').disabled = true;
+        audioTimer = setInterval(() => {
+            audioSeconds++;
+            audioStatus.innerText = `🎤 Recording... ${audioSeconds}s`;
+        }, 1000);
+
+        startAudio.disabled = true;
+        stopAudio.disabled = false;
+
+    } catch {
+        alert('Microphone access denied');
+    }
+};
+
+stopAudio.onclick = () => {
+    audioRecorder.stop();
+    audioStream.getTracks().forEach(t => t.stop());
+
+    clearInterval(audioTimer);
+    audioStatus.innerText = '✅ Audio recorded';
+
+    startAudio.disabled = false;
+    stopAudio.disabled = true;
+};
+
+/* ================= VIDEO ================= */
+let videoStream, videoRecorder, videoChunks = [];
+let videoTimer, videoSeconds = 0;
+
+startVideo.onclick = async () => {
+    try {
+        videoStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        videoRecorder = new MediaRecorder(videoStream);
+        videoChunks = [];
+
+        videoRecorder.ondataavailable = e => videoChunks.push(e.data);
+        videoRecorder.onstop = () => {
+            const blob = new Blob(videoChunks, { type: 'video/webm' });
+            videoPreview.src = URL.createObjectURL(blob);
+            videoPreview.classList.remove('d-none');
+
+            const file = new File([blob], 'recorded_video.webm', { type: 'video/webm' });
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            videoFile.files = dt.files;
         };
 
+        videoRecorder.start();
+        videoSeconds = 0;
+        videoStatus.innerText = '🔴 Recording... 0s';
 
-        /* ===================== VIDEO RECORDING ===================== */
+        videoTimer = setInterval(() => {
+            videoSeconds++;
+            videoStatus.innerText = `🔴 Recording... ${videoSeconds}s`;
+        }, 1000);
 
-        let videoStream, videoRecorder, videoChunks = [];
+        startVideo.disabled = true;
+        stopVideo.disabled = false;
 
-        document.getElementById('startVideo').onclick = async function() {
-            videoStream = await navigator.mediaDevices.getUserMedia({
-                video: true,
-                audio: true
-            });
-            videoRecorder = new MediaRecorder(videoStream);
+    } catch {
+        alert('Camera access denied');
+    }
+};
 
-            videoRecorder.start();
-            videoChunks = [];
+stopVideo.onclick = () => {
+    videoRecorder.stop();
+    videoStream.getTracks().forEach(t => t.stop());
 
-            videoRecorder.ondataavailable = e => videoChunks.push(e.data);
+    clearInterval(videoTimer);
+    videoStatus.innerText = '✅ Video recorded';
 
-            videoRecorder.onstop = () => {
-                const videoBlob = new Blob(videoChunks, {
-                    type: 'video/mp4'
-                });
-                const videoUrl = URL.createObjectURL(videoBlob);
+    startVideo.disabled = false;
+    stopVideo.disabled = true;
+};
+</script>
 
-                let videoPreview = document.getElementById('videoPreview');
-                videoPreview.src = videoUrl;
-                videoPreview.style.display = 'block';
-
-                const videoFileInput = document.getElementById('videoFile');
-                const file = new File([videoBlob], "recorded_video.mp4", {
-                    type: 'video/mp4'
-                });
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(file);
-                videoFileInput.files = dataTransfer.files;
-            };
-
-            document.getElementById('startVideo').disabled = true;
-            document.getElementById('stopVideo').disabled = false;
-        };
-
-        document.getElementById('stopVideo').onclick = function() {
-            videoRecorder.stop();
-            videoStream.getTracks().forEach(t => t.stop());
-
-            document.getElementById('startVideo').disabled = false;
-            document.getElementById('stopVideo').disabled = true;
-        };
-    </script>
 </body>
-
 </html>
