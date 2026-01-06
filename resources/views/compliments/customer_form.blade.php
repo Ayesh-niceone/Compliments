@@ -254,68 +254,92 @@ stopAudio.onclick = () => {
     stopAudio.disabled = true;
 };
 
-/* ================= VIDEO ================= */
-let videoStream, videoRecorder, videoChunks = [];
-let videoTimer, videoSeconds = 0;
 
-startVideo.onclick = async () => {
-    try {
-        videoStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+</script>
+<script>
+    let videoStream, videoRecorder, videoChunks = [];
+    let videoTimer, videoSeconds = 0;
+    let currentFacingMode = 'user'; // front camera by default
 
-        // ✅ SHOW LIVE CAMERA PREVIEW
+    async function startCamera() {
+        if (videoStream) {
+            videoStream.getTracks().forEach(t => t.stop());
+        }
+
+        videoStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: currentFacingMode },
+            audio: true
+        });
+
         videoPreview.srcObject = videoStream;
         videoPreview.muted = true;
         videoPreview.classList.remove('d-none');
         videoPreview.play();
-
-        videoRecorder = new MediaRecorder(videoStream);
-        videoChunks = [];
-
-        videoRecorder.ondataavailable = e => videoChunks.push(e.data);
-
-        videoRecorder.onstop = () => {
-            const blob = new Blob(videoChunks, { type: 'video/webm' });
-
-            // ✅ SHOW RECORDED VIDEO AFTER STOP
-            videoPreview.srcObject = null;
-            videoPreview.src = URL.createObjectURL(blob);
-            videoPreview.muted = false;
-
-            const file = new File([blob], 'recorded_video.webm', { type: 'video/webm' });
-            const dt = new DataTransfer();
-            dt.items.add(file);
-            videoFile.files = dt.files;
-        };
-
-        videoRecorder.start();
-
-        videoSeconds = 0;
-        videoStatus.innerText = '🔴 Recording... 0s';
-
-        videoTimer = setInterval(() => {
-            videoSeconds++;
-            videoStatus.innerText = `🔴 Recording... ${videoSeconds}s`;
-        }, 1000);
-
-        startVideo.disabled = true;
-        stopVideo.disabled = false;
-
-    } catch (e) {
-        alert('Camera access denied');
     }
-};
 
+    /* START RECORD */
+    startVideo.onclick = async () => {
+        try {
+            await startCamera();
 
-stopVideo.onclick = () => {
-    videoRecorder.stop();
-    videoStream.getTracks().forEach(t => t.stop());
+            videoRecorder = new MediaRecorder(videoStream);
+            videoChunks = [];
 
-    clearInterval(videoTimer);
-    videoStatus.innerText = '✅ Video recorded';
+            videoRecorder.ondataavailable = e => videoChunks.push(e.data);
 
-    startVideo.disabled = false;
-    stopVideo.disabled = true;
-};
+            videoRecorder.onstop = () => {
+                const blob = new Blob(videoChunks, { type: 'video/webm' });
+
+                videoPreview.srcObject = null;
+                videoPreview.src = URL.createObjectURL(blob);
+                videoPreview.muted = false;
+
+                const file = new File([blob], 'recorded_video.webm', { type: 'video/webm' });
+                const dt = new DataTransfer();
+                dt.items.add(file);
+                videoFile.files = dt.files;
+            };
+
+            videoRecorder.start();
+
+            videoSeconds = 0;
+            videoStatus.innerText = '🔴 Recording... 0s';
+            videoTimer = setInterval(() => {
+                videoSeconds++;
+                videoStatus.innerText = `🔴 Recording... ${videoSeconds}s`;
+            }, 1000);
+
+            startVideo.disabled = true;
+            stopVideo.disabled = false;
+            switchCamera.disabled = false;
+
+        } catch (e) {
+            alert('Camera access denied');
+        }
+    };
+
+    /* STOP RECORD */
+    stopVideo.onclick = () => {
+        videoRecorder.stop();
+        videoStream.getTracks().forEach(t => t.stop());
+
+        clearInterval(videoTimer);
+        videoStatus.innerText = '✅ Video recorded';
+
+        startVideo.disabled = false;
+        stopVideo.disabled = true;
+    };
+
+    /* SWITCH CAMERA */
+    switchCamera.onclick = async () => {
+        if (videoRecorder && videoRecorder.state === 'recording') {
+            alert('Stop recording before switching camera');
+            return;
+        }
+
+        currentFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
+        await startCamera();
+    };
 </script>
 
 </body>
