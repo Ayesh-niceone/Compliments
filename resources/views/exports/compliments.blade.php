@@ -20,14 +20,14 @@
             <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $compliment->customer_name ?? '-' }}</td>
-                <td>{{ $compliment->department->name ?? '-' }}</td>
+                <td>{{ $compliment->department->name_lang ?? '-' }}</td>
                 <td>{{ $compliment->department->code ?? '-' }}</td>
                 <td>{{ $compliment->phone ?? '-' }}</td>
                 <td>{{ $compliment->plate_number ?? '-' }}</td>
                 <td>{{ optional($compliment->created_at)->format('Y-m-d H:i') ?? '-' }}</td>
-                <td>{{ $compliment->completion_type->name ?? '-' }}</td>
+                <td>{{ $compliment->completion_type->name_lang ?? '-' }}</td>
                 <td>{{ $compliment->careUser->name ?? '-' }}</td>
-                <td>{{ $compliment->status->name ?? '-' }}</td>
+                <td>{{ $compliment->status->name_lang ?? '-' }}</td>
                 <td>{{ $compliment->comment ?? '-' }}</td>
                 <td>{{ $compliment->care_comment ?? '-' }}</td>
             </tr>
