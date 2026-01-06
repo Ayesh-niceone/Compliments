@@ -131,7 +131,6 @@
                 <input type="hidden" name="department_id" value="{{ request()->get('department_id') }}">
 
                 <div class="row g-3 mb-3">
-
                     <div class="col-md-6">
                         <label class="section-label">{{ __('Worker Name') }}</label>
                         <select name="worker_id" class="form-select" required>
@@ -161,17 +160,17 @@
                         <label class="section-label">{{ __('Missed Pay') }}</label>
                         <input type="text" name="missed_pay" class="form-control" placeholder="{{ __('Optional') }}">
                     </div>
-
                 </div>
 
                 <!-- VIDEO RECORD -->
                 <div class="mb-3">
                     <label class="section-label">{{ __('Record Video') }}</label>
-                    <video id="videoPreview" class="w-100 rounded border" height="220" autoplay muted></video>
+                    <video id="videoPreview" class="w-100 rounded border" height="220" autoplay muted playsinline></video>
 
                     <div class="mt-2">
                         <button type="button" id="startVideo" class="btn btn-outline-secondary rec-btn">🎥 {{ __('Start Recording') }}</button>
                         <button type="button" id="stopVideo" class="btn btn-outline-danger rec-btn" disabled>⛔ {{ __('Stop') }}</button>
+                        <button type="button" id="switchCamera" class="btn btn-outline-primary rec-btn">🔄 {{ __('Switch Camera') }}</button>
                     </div>
 
                     <div id="videoStatus" class="rec-status text-danger"></div>
@@ -214,21 +213,33 @@
     </div>
 </div>
 
-<!-- ===================== -->
-<!-- UPDATED RECORDING JS -->
-<!-- ===================== -->
 <script>
 let videoStream, audioStream;
 let videoRecorder, audioRecorder;
 let videoChunks = [], audioChunks = [];
 let videoTimer, audioTimer;
 let videoSeconds = 0, audioSeconds = 0;
+let currentFacingMode = 'user'; // front camera by default
 
 /* VIDEO */
+async function startCamera() {
+    if (videoStream) videoStream.getTracks().forEach(t => t.stop());
+
+    try {
+        videoStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: { ideal: currentFacingMode } },
+            audio: true
+        });
+        document.getElementById('videoPreview').srcObject = videoStream;
+    } catch {
+        alert('Camera access denied or not supported');
+        throw 'Camera denied';
+    }
+}
+
 document.getElementById('startVideo').onclick = async function () {
     try {
-        videoStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        document.getElementById('videoPreview').srcObject = videoStream;
+        await startCamera();
 
         videoRecorder = new MediaRecorder(videoStream);
         videoChunks = [];
@@ -253,7 +264,7 @@ document.getElementById('startVideo').onclick = async function () {
         document.getElementById('stopVideo').disabled = false;
 
     } catch (e) {
-        alert('Camera access denied or not supported');
+        console.log(e);
     }
 };
 
@@ -266,6 +277,15 @@ document.getElementById('stopVideo').onclick = function () {
 
     this.disabled = true;
     document.getElementById('startVideo').disabled = false;
+};
+
+document.getElementById('switchCamera').onclick = async function () {
+    if (videoRecorder && videoRecorder.state === 'recording') {
+        alert('Stop recording before switching camera');
+        return;
+    }
+    currentFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
+    await startCamera();
 };
 
 /* AUDIO */
