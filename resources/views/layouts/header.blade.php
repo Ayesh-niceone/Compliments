@@ -67,8 +67,10 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
                   <div class="message-body">
-
-                    <a href="{{route('logout')}}" class="btn btn-outline-primary mx-3 mt-2 d-block">{{ __('Logout') }}</a>
+                    <a href="{{ route('profile.edit') }}" class="dropdown-item">
+                        <i class="ti ti-user me-2"></i>{{ __('Profile') }}
+                    </a>
+                    <a href="{{ route('logout') }}" class="btn btn-outline-primary mx-3 mt-2 d-block">{{ __('Logout') }}</a>
                   </div>
                 </div>
               </li>
