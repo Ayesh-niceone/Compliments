@@ -53,7 +53,7 @@ class UserController extends Controller
         // Assign Spatie role
         $user->syncRoles([$validated['role']]);
 
-        return response()->json(['message' => 'User created successfully']);
+        return response()->json(['message' => __('User created successfully.')]);
     }
 
 
@@ -115,6 +115,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return response()->json(['message' => 'User deleted successfully']);
+        return response()->json(['message' => __('User deleted successfully.')]);
     }
 }

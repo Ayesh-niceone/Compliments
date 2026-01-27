@@ -67,8 +67,8 @@
                 </div>
 
                 <div class="mb-3 password-field">
-                    <label for="password" class="form-label fw-semibold">{{ __('Password') }}</label>
-                    <input type="password" class="form-control" id="password" name="password">
+                    <label for="password" class="form-label fw-semibold">{{ __('User Password') }}</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('Enter password for new user') }}">
                     <small class="text-muted">{{ __('Required only when creating a new user.') }}</small>
                 </div>
             </div>
