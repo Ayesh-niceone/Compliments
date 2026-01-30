@@ -3,7 +3,8 @@
 if (!function_exists('setting')) {
     function setting($key, $default = null)
     {
-        return \App\Models\Setting::whereNotNull('id')->first()->$key;
+        $setting = \App\Models\Setting::whereNotNull('id')->first();
+        return $setting ? ($setting->$key ?? $default) : $default;
     }
 }
 
