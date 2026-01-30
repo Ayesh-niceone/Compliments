@@ -102,7 +102,12 @@
                                 </div>
 
                                 <div class="mb-4">
-                                    <label class="form-label">Password</label>
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <label class="form-label mb-0">Password</label>
+                                        <a href="{{ route('password.request') }}" class="text-primary text-decoration-none small">
+                                            {{ __('Forgot password?') }}
+                                        </a>
+                                    </div>
                                     <input
                                         type="password"
                                         name="password"
